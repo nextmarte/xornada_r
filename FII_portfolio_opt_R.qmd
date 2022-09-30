@@ -58,6 +58,10 @@ This project aimed to select a optmized portfolio considering a scenario of low 
 
 This work relied on the use of RStudio and various R packages to manipulate and understand the data, including: Tydiverse[@wickhamWelcomeTidyverse2019a] ,Lubridade [@grolemundDatesTimesMade2011]for general data manipulation, plotly[@sievertInteractiveWebbasedData] and ggplot2[@wickham2016] for data visualization and quantmode[@ryanQuantmodQuantitativeFinancial2022], tidyquant[@danchoTidyquantTidyQuantitative2022] and PerformanceAnalitycs[@petersonPerformanceAnalyticsEconometricTools2020] for financial data vesting, manipulation and computation.
 
+For the assets selection some assumptions were made. Using a filter tool from the website Clube do FII[@clubefii], all assets with the IPO (Inicial public offering) prior the year of 2017 and mean monthly liquidity greater than R\$ 2,000.00 were selected.
+
+The chosen assets price data was downloaded within time window of 2017 to 2019 with the package quantmod[@ryanQuantmodQuantitativeFinancial2022] and Yahoo Finance[@yahoofi] as source. After the price data vesting, followed the monthly returns calculation using dplyr[@wickham2022]
+
 ### Results
 
 ### Conclusion
