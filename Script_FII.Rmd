@@ -1,0 +1,245 @@
+---
+title: "Script_fii"
+author: "Marcus Antonio Cardoso Ramalho"
+date: "07/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r carregando_pacotes}
+
+suppressMessages(library(tidyverse))
+suppressMessages(library(lubridate))
+suppressMessages(library(highcharter))
+suppressMessages(library(tidyquant))
+suppressMessages(library(tibbletime))
+suppressMessages(library(quantmod))
+suppressMessages(library(PerformanceAnalytics))
+suppressMessages(library(PortfolioAnalytics))
+suppressMessages(library(timetk))
+suppressMessages(library(esquisse))
+
+
+library(DEoptim)
+library(ROI)
+require(ROI.plugin.glpk)
+require(ROI.plugin.quadprog)
+
+
+
+
+library(foreach)
+library(DEoptim)
+library(iterators)
+library(fGarch)
+library(Rglpk)
+library(quadprog)
+library(ROI)
+library(ROI.plugin.glpk)
+library(ROI.plugin.quadprog)
+library(ROI.plugin.symphony)
+library(pso)
+library(GenSA)
+library(corpcor)
+library(testthat)
+library(nloptr)
+library(MASS)
+library(robustbase)
+
+```
+
+Fundos pre selecionados
+```{r importando os preços dos 60 fundos}
+
+#importar a string com os tickers dos ativos do arquivo xlsx antes deste passo (arquivo: filtrofiidois)
+
+preativos<-filtrofiidois$COD#salva os tickers no vetor
+
+#Adiciona .SA aos tickers
+preativos<-paste(preativos, ".SA", sep="")
+
+#baixa os preços diários
+prepricesfii <- 
+  getSymbols(preativos, 
+             src = "yahoo", 
+             from = "2017-01-02",
+             to = "2019-12-31",
+             auto.assign = TRUE, 
+             warnings = FALSE,) %>% 
+  map(~Ad(get(.))) %>% 
+  reduce(merge) %>%
+    `colnames<-`(preativos)%>%
+  na.omit()
+
+#calculando os retornos
+
+#retornos xts
+
+prepricesfii_monthly <- to.monthly(prepricesfii, indexAt = "lastof", OHLC = FALSE)
+preassetfii_returns_xts <-
+  Return.calculate(prepricesfii_monthly, 
+                   method = "log")%>%
+  na.omit()
+
+#retornos dplyr
+
+preassetfii_returns_dplyr_byhand <- 
+  prepricesfii %>% 
+  to.monthly(indexAt = "lastof", OHLC = FALSE) %>%
+  #Convertendo o idice numa coluna de datas
+  data.frame(date = index(.)) %>%
+  remove_rownames() %>% 
+  gather(asset, returns, -date) %>% 
+  group_by(asset) %>%
+  mutate(returns = ((log(returns) - log(lag(returns)))))%>%
+  na.omit()
+
+#Fundindo o dataset de retornos com o de caracteristicas (importar o dataframe CATASSET antes!!)
+ret_cat_info<-inner_join(preassetfii_returns_dplyr_byhand,CATASSET)
+
+#Filtrando participação no IFIX e categorias excluídas
+ret_cat_filtro<-ret_cat_info %>%
+ filter(!(CAT %in% c("Outros", "Educacional"))) %>%
+ filter(`IFIX - Participação Percentual` >0)
+
+#Plotando um histograma de retornos após o filtro
+ ggplot(ret_cat_filtro) +
+ aes(x = returns, fill = CAT) +
+ geom_histogram(bins = 30L) +
+ scale_fill_hue() +
+ labs(x = "Retornos", y = "Contagem", title = "Histograma de retorno por categoria - IFIX", fill = "Categorias") +
+ theme_minimal()
+
+ #trabalhando com os fundos selecionados
+ 
+ #salvando os tickers 
+ ativos<-unique(ret_cat_filtro$asset)
+ 
+ #baixando os preços novamente
+ pricesfii <- 
+  getSymbols(ativos, 
+             src = "yahoo", 
+             from = "2017-01-02",
+             to = "2019-12-31",
+             auto.assign = TRUE, 
+             warnings = FALSE,) %>% 
+  map(~Ad(get(.))) %>% 
+  reduce(merge) %>%
+    `colnames<-`(ativos)%>%
+  na.omit()
+   
+ #obtendo os preços ajustados mensalmente
+ pricesfii_monthly <- to.monthly(pricesfii,
+                                 indexAt = "lastof",
+                                 OHLC = FALSE)
+ #obtendo os retornos mensais
+  assetfii_returns_xts <-
+  Return.calculate(pricesfii_monthly, 
+                   method = "log") %>% 
+  na.omit() 
+
+
+```
+
+```{r}
+
+returns <- assetfii_returns_xts
+funds <- colnames(returns)
+
+init.portfolio <- portfolio.spec(assets = funds)
+init.portfolio <- add.constraint(portfolio = init.portfolio, type = "full_investment")
+init.portfolio <- add.constraint(portfolio = init.portfolio, type = "long_only")
+
+# Add objective for portfolio to minimize portfolio standard deviation
+minSD.portfolio <- add.objective(portfolio=init.portfolio, 
+                                 type="risk", 
+                                 name="StdDev")
+
+# Add objectives for portfolio to maximize mean per unit ES
+meanES.portfolio <- add.objective(portfolio=init.portfolio, 
+                                  type="return", 
+                                  name="mean")
+
+meanES.portfolio <- add.objective(portfolio=meanES.portfolio, 
+                                 type="risk", 
+                                 name="ES")
+
+# Run the optimization for the minimum standard deviation portfolio
+minSD.opt <- optimize.portfolio(R = returns, portfolio = minSD.portfolio, 
+    optimize_method = "ROI", trace = TRUE)
+
+extractObjectiveMeasures(minSD.opt)
+
+print(minSD.opt)
+
+plot(minSD.opt, risk.col="StdDev", chart.assets=TRUE, 
+     main="Min SD Optimization",
+     ylim=c(0, 0.01), xlim=c(0, 0.06))
+
+chart.RiskReward(minSD.opt,
+                 risk.col = "StdDev",
+                 return.col = "mean",
+                 chart.assets = TRUE)
+
+```
+
+
+
+```{r}
+
+
+
+port_spec <- portfolio.spec(colnames(assetfii_returns_xts))
+port_spec <- add.constraint(portfolio = port_spec, type = "full_investment")
+port_spec <- add.constraint(portfolio = port_spec, type = "long_only")
+port_spec <- add.constraint(portfolio = port_spec,
+                            type = "box",
+                            min = 0.02, max = 0.1)
+port_spec <- add.objective(portfolio = port_spec, type = "return", name = "mean")
+port_spec <- add.objective(portfolio = port_spec, type = "risk", name = "StdDev")
+#port_spec<- add.objective(portfolio=port_spec, type="risk", name="var")
+
+
+
+
+opt_fii <- optimize.portfolio(assetfii_returns_xts,
+                          portfolio = port_spec,
+                          optimize_method = "random",
+                          trace = TRUE)
+
+
+
+plot(opt, risk.col="StdDev", return.col="mean",
+main="Otimizzação de Risco x Retorno", chart.assets=TRUE,
+xlim=c(0, 0.05), ylim=c(0,0.0085))
+
+chart.RiskReward(opt_fii,
+                 risk.col = "StdDev",
+                 return.col = "mean",
+                 chart.assets = TRUE)
+
+extractObjectiveMeasures(opt_fii)
+
+
+
+
+
+chart.Weights(opt_fii,
+              main = "Pesos otimizados",
+              )
+chart.Weights(opt2)
+
+pesos_otimizados<-opt_fii$weights
+pesos_otimizados
+carteira_otimizada<-data.frame("assets","weights")
+
+
+print(port_spec)
+
+summary(opt_fii)
+
+```

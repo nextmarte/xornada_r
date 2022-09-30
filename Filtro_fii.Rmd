@@ -1,0 +1,685 @@
+---
+title: "Filtro_fii"
+author: "Marcus Antonio Cardoso Ramalho"
+date: "27/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+suppressMessages(library(tidyverse))
+suppressMessages(library(lubridate))
+suppressMessages(library(highcharter))
+suppressMessages(library(tidyquant))
+suppressMessages(library(tibbletime))
+suppressMessages(library(quantmod))
+suppressMessages(library(PerformanceAnalytics))
+suppressMessages(library(timetk))
+suppressMessages(library(esquisse))
+library(WriteXLS)
+
+
+```
+
+
+
+
+Fundos pre selecionados
+```{r selecao 60 fundos}
+
+preativos<-filtrofiidois$COD
+preativos<-paste(preativos, ".SA", sep="")
+
+
+prepricesfii <- 
+  getSymbols(preativos, 
+             src = "yahoo", 
+             from = "2017-01-02",
+             to = "2019-12-31",
+             auto.assign = TRUE, 
+             warnings = FALSE,) %>% 
+  map(~Ad(get(.))) %>% 
+  reduce(merge) %>%
+    `colnames<-`(preativos)%>%
+  na.omit()
+
+
+prepricesfii_clear<-na.omit(prepricesfii)
+
+#calculando os retornos
+prepricesfii_monthly <- to.monthly(prepricesfii, indexAt = "lastof", OHLC = FALSE)
+preassetfii_returns_xts <-
+  Return.calculate(prepricesfii_monthly, 
+                   method = "log")%>%
+  na.omit()
+
+#continuação dos retornos
+
+preassetfii_returns_dplyr_byhand <- 
+  prepricesfii %>% 
+  to.monthly(indexAt = "lastof", OHLC = FALSE) %>%
+  # convert the index to a date
+  data.frame(date = index(.)) %>%
+  # now remove the index because it got converted to row names
+  remove_rownames() %>% 
+  gather(asset, returns, -date) %>% 
+  group_by(asset) %>%
+  mutate(returns = ((log(returns) - log(lag(returns)))))%>%
+  na.omit()
+
+ret_cat_info<-inner_join(preassetfii_returns_dplyr_byhand,CATASSET)
+
+
+
+
+esquisser(ret_cat_info)
+
+head(ret_cat_info)
+
+#filtrando categorias e participação ifix
+
+ret_cat_filtro<-ret_cat_info %>%
+ filter(!(CAT %in% c("Outros", "Educacional"))) %>%
+ filter(`IFIX - Participação Percentual` >0)
+
+ ggplot(ret_cat_filtro) +
+ aes(x = returns, fill = CAT) +
+ geom_histogram(bins = 30L) +
+ scale_fill_hue() +
+ labs(x = "Retornos", y = "Contagem", title = "Histograma de retorno por categoria - IFIX", fill = "Categorias") +
+ theme_minimal()
+
+esquisser(ret_cat_filtro)
+
+
+teste<-ret_cat_filtro$asset
+teste<-unique(teste)
+
+
+
+
+```
+
+
+```{r}
+
+
+
+#salvando os tickers em um vetor
+
+
+
+
+#ativos<-filtrofiidois$COD
+#ativos<-paste(ativos, ".SA", sep="")
+
+ativos<-carteira_final$Ticker
+
+pricesfii <- 
+  getSymbols(ativos, 
+             src = "yahoo", 
+             from = "2017-01-02",
+             to = "2019-12-31",
+             auto.assign = TRUE, 
+             warnings = FALSE,) %>% 
+  map(~Ad(get(.))) %>% 
+  reduce(merge) %>%
+    `colnames<-`(ativos)%>%
+  na.omit()
+
+
+
+#prices<-na.exclude(prices)
+
+head(pricesfii)
+
+```
+
+
+
+```{r}
+
+#prices2<-prices%>%
+ # na.omit()
+
+
+
+pricesfii_monthly <- to.monthly(pricesfii, indexAt = "lastof", OHLC = FALSE)
+
+
+#exportaprices<-prices
+
+ 
+
+#write.csv(exportaprices,file = "prices2.csv")
+
+
+
+##PASTE
+
+assetfii_returns_xts <-
+  Return.calculate(pricesfii_monthly, 
+                   method = "log") %>% 
+  na.omit()
+
+
+ assetfii_returns_dplyr_byhand <- 
+  pricesfii %>% 
+  to.monthly(indexAt = "lastof", OHLC = FALSE) %>%
+  # converter o índice para data
+  data.frame(date = index(.)) %>%
+  remove_rownames() %>% 
+  gather(asset, returns, -date) %>% 
+  group_by(asset) %>%
+  #mutate(datano=date)%>%
+  #separate(datano,into=c("ano","mes"),convert = TRUE)%>%
+  #mutate(ym=paste(ano,mes,sep = "-"))%>%
+  #mutate(chave=paste(ym,asset,sep = ""))%>%
+  #subset( select = -c(ano,mes,ym) )%>%
+  mutate(returns = ((log(returns) - log(lag(returns)))))%>%
+   na.omit()
+ 
+#calculando os retornos com os rendimentos
+  #assetfii_returns_dplyr_byhand <- inner_join(assetfii_returns_dplyr_byhand,RENDIMENTOS_CARTEIRA)%>%
+  #mutate(returns = (((returns) - (lag(returns))+REND))/returns) %>%
+  #na.omit()
+  #excluindo o outlier
+
+
+pesos_minvar <- min_var %>%
+  gather(1:24, key = Asset,
+         value = Weights) %>%
+  mutate(Asset = as.factor(Asset))
+ 
+  pesos_maxsr <- max_sr %>%
+  gather(1:24, key = Asset,
+         value = Weights) %>%
+  mutate(Asset = as.factor(Asset))
+  
+  pesos<-pesos_maxsr$Weights
+  
+  pesos
+```
+
+arrumando a tabela selic
+```{r taxa selic}
+taxa_selic<-historico_selic
+```
+
+
+Portifólio
+
+```{r}
+w<-pesos
+assetfii_monthly_returns_long_with_weights_tbl<-
+  assetfii_returns_dplyr_byhand %>% 
+  group_by(asset) %>% 
+  na.omit() %>% 
+  mutate(peso = case_when(
+    asset==ativos[1] ~ w[1],
+    asset==ativos[2] ~ w[2],
+    asset==ativos[3] ~ w[3],
+    asset==ativos[4] ~ w[4],
+    asset==ativos[5] ~ w[5],
+    asset==ativos[6] ~ w[6],
+    asset==ativos[7] ~ w[7],
+    asset==ativos[8] ~ w[8],
+    asset==ativos[9] ~ w[9],
+    asset==ativos[10] ~ w[10],
+    asset==ativos[11] ~ w[11],
+    asset==ativos[12] ~ w[12],    
+    asset==ativos[13] ~ w[13],
+    asset==ativos[14] ~ w[14],
+    asset==ativos[15] ~ w[15],
+    asset==ativos[16] ~ w[16],
+    asset==ativos[17] ~ w[17],
+    asset==ativos[18] ~ w[18],
+    asset==ativos[19] ~ w[19],
+    asset==ativos[20] ~ w[20],
+    asset==ativos[21] ~ w[21],
+    asset==ativos[22] ~ w[22],
+    asset==ativos[23] ~ w[23],
+    asset==ativos[24] ~ w[24])) %>% 
+  na.omit()
+
+head(assetfii_monthly_returns_long_with_weights_tbl)
+
+#computing portfolio retuns
+
+portifoliofii_monthly_returns_dplyr_byhand<-
+  assetfii_monthly_returns_long_with_weights_tbl %>% 
+    mutate(weighted_returns = returns*peso) %>% 
+  group_by(date) %>% 
+  summarise(returns = sum(weighted_returns))
+head(portifoliofii_monthly_returns_dplyr_byhand, 12)
+
+((mean(portifoliofii_monthly_returns_dplyr_byhand$returns))-0.0058)/0.0236
+mean(portifoliofii_monthly_returns_dplyr_byhand$returns)
+```
+
+calculando o beta do portifólio em relação ao IFIX
+```{r ifix}
+
+Beta_portifolio_ifix<-
+  cov(portifoliofii_monthly_returns_dplyr_byhand$returns,Retornos_ifix$returns)/var(portifoliofii_monthly_returns_dplyr_byhand$returns)
+Beta_portifolio_ifix
+
+Beta_SELIC_ifix<-
+  cov(Retornos_ifix$returns,historico_selic$returns)/var(Retornos_ifix$returns)
+Beta_SELIC_ifix
+
+comb_ret<-left_join(portifoliofii_monthly_returns_dplyr_byhand,Retornos_ifix, by = 'date')
+
+comb_ret %>%
+  ggplot(aes(x = portifoliofii_monthly_returns_dplyr_byhand$returns,
+             y = Retornos_ifix$returns)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = 'lm',
+              se = TRUE) +
+  theme_classic() +
+  labs(x = 'Retornos IFIX',
+       y = "Retornos do portifólio",
+       title = "Retornos do portifólio vs retornos do IFIX - Portifólio de variância mínima") +
+  scale_x_continuous(breaks = seq(-0.1,0.1,0.01),
+                     labels = scales::percent) +
+  scale_y_continuous(breaks = seq(-0.1,0.1,0.01),
+                     labels = scales::percent)
+
+
+```
+
+
+
+
+desvio padrão do portifólio
+```{r}
+
+portfoliofii_sd_tidyverse <-
+  portifoliofii_monthly_returns_dplyr_byhand %>%
+  summarise(dplyr = sd(returns)) %>%
+  mutate(dplyr = round(dplyr, 4) * 100)
+
+
+
+
+
+#desvio padrão IFIX
+
+  Retornos_ifix %>%
+  summarise(dplyr = sd(returns)) %>%
+  mutate(dplyr = round(dplyr, 4) * 100)
+  
+  mean(Retornos_ifix$returns)
+
+```
+```{r portfolio std in xts}
+# computation of portfolio returns as before
+portfoliofii_returns_xts_rebalanced_monthly<-Return.portfolio(assetfii_returns_xts,
+                 weights = w,
+                 rebalance_on = "months",
+                 type= "discrete") %>% 
+  `colnames<-`("returns")
+
+# computation of std in xts
+porfoliofii_sd_xts_builtin<-StdDev(portfoliofii_returns_xts_rebalanced_monthly, weigths=w)
+porfoliofii_sd_xts_builtin
+
+porfoliofii_sd_xts_builtin_percent<-
+  round(porfoliofii_sd_xts_builtin*100, 3)
+
+porfoliofii_sd_xts_builtin_percent[1,1]
+```
+
+plotando 
+
+
+```{r}
+###esquisser(portifoliofii_monthly_returns_dplyr_byhand )
+
+   portifoliofii_monthly_returns_dplyr_byhand %>%
+  ggplot(aes(x = date, y = returns)) +
+  geom_point(color = "Red") +
+  scale_x_date(breaks = pretty_breaks(n = 6)) +
+  ggtitle("Retornos do Portifólio") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(x="Data",y="Retornos")+
+  theme_minimal()
+
+
+
+
+#plotando retornos da taxa selic
+
+
+selicgg<-
+  ggplot(historico_selic) +
+ aes(x = date, y = returns) +
+ geom_point(size = 1L, colour = "#0c4c8a") +
+ theme_minimal()+
+  labs(x="Data",y="Retornos")
+
+selicgg
+
+
+
+#teste_join<-merge(taxa_selic,portifoliofii_monthly_returns_dplyr_byhand)
+
+#teste_join<-rbind(taxa_selic,portifoliofii_monthly_returns_dplyr_byhand)
+
+tabela_com_fii_selic<-portifoliofii_monthly_returns_dplyr_byhand%>%
+  mutate(asset="portifolio")
+
+teste33<-rbind.data.frame(tabela_com_fii_selic,historico_selic)
+teste34<-rbind.data.frame(teste33,Retornos_ifix)
+
+esquisser(teste34)
+
+ggplot(teste34) +
+ aes(x = date, y = returns, colour = asset) +
+ geom_line(size = 0.96) +
+ scale_color_hue() +
+ theme_minimal()
+
+
+```
+
+```{r indicators}
+# criamos os indicadores
+sd_plotfii <-
+  sd(portifoliofii_monthly_returns_dplyr_byhand$returns)
+mean_plotfii <-
+  mean(portifoliofii_monthly_returns_dplyr_byhand$returns)
+
+```
+
+```{r intervalo média mais ou menos sigma, warning=FALSE,message=FALSE}
+portifoliofii_monthly_returns_dplyr_byhand %>%
+  mutate(faixa_inferior =
+           if_else(returns < (mean_plotfii - sd_plotfii),
+                  returns, as.numeric(NA)),
+         faixa_superior =
+           if_else(returns > (mean_plotfii + sd_plotfii),
+                  returns, as.numeric(NA)),
+         faixa_central =
+           if_else(returns > (mean_plotfii - sd_plotfii) &
+                  returns < (mean_plotfii + sd_plotfii),
+                  returns, as.numeric(NA))) %>%
+  ggplot(aes(x = date)) +
+
+  geom_point(aes(y = faixa_inferior),
+               color = "red") +
+
+  geom_point(aes(y = faixa_superior),
+               color = "green") +
+
+  geom_point(aes(y = faixa_central),
+               color = "blue") +
+  geom_hline(yintercept = (mean_plotfii + sd_plotfii),
+           color = "purple",
+           linetype = "dotted") +
+geom_hline(yintercept = (mean_plotfii-sd_plotfii),
+           color = "purple",
+           linetype = "dotted") +
+  labs(title = "Visualização dos retornos com indicadores ", y = "Retornos Mensais",x="Data") +
+  scale_x_date(breaks = pretty_breaks(n = 8)) +
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme_minimal()
+```
+
+
+```{r comparando portifólio e ativos}
+
+assetfii_returns_dplyr_byhand %>%
+group_by(asset) %>%
+summarise(expected_return = mean(returns),
+          stand_dev = sd(returns)) %>%
+add_row(asset = "Portfolio",
+  stand_dev =
+    sd(portifoliofii_monthly_returns_dplyr_byhand$returns),
+  expected_return =
+    mean(portifoliofii_monthly_returns_dplyr_byhand$returns)) %>%
+
+ggplot(aes(x = stand_dev,
+           y = expected_return,
+           color = asset)) +
+geom_point(size = 2) +
+geom_text(
+ aes(x =
+  sd(portifoliofii_monthly_returns_dplyr_byhand$returns) * 1.11,
+    y =
+  mean(portifoliofii_monthly_returns_dplyr_byhand$returns),
+        label = "Portfolio")) +
+ggtitle("Retorno x Risco") +
+scale_y_continuous(label = scales::percent) +
+scale_x_continuous(label = scales::percent, breaks = pretty_breaks(n = 10)) +
+# The next line centers the title
+theme_update(plot.title = element_text(hjust = 0.5))+
+  labs(y="Retorno esperado",x="Desvio Padrão")+
+theme_minimal()
+```
+Rolando
+
+```{r window}
+window<-3
+
+portfii_rolling_sd_xts <-
+  rollapply(portfoliofii_returns_xts_rebalanced_monthly,
+            FUN = sd,
+            width = window) %>%
+  # omit the 23 months for which there is no rolling 24
+  # month standard deviation
+  na.omit() %>%
+  `colnames<-`("rolling_sd")
+
+head(portfii_rolling_sd_xts, 35)
+```
+```{r rolling sd com hc}
+# arredondando as percentagens
+port_rolling_sd_xts_hc <-
+round(portfii_rolling_sd_xts, 4) * 100
+
+highchart(type = "stock") %>%
+hc_add_series(port_rolling_sd_xts_hc,
+              color = "red") %>%
+hc_title(text = paste0(" Variação da volatilidade por mês", sep = "")) %>%
+hc_add_theme(hc_theme_flat()) %>%
+hc_yAxis(
+  labels = list(format = "{value}%"),
+           opposite = FALSE) %>%
+hc_navigator(enabled = FALSE) %>%
+hc_scrollbar(enabled = FALSE) %>%
+hc_exporting(enabled= TRUE) %>%
+hc_legend(enabled = TRUE)
+```
+```{r sd rolante no ggplot}
+
+portfii_rolling_sd_xts %>%
+ggplot(aes(x = date)) +
+geom_line(aes(y = rolling_sd), color = "darkblue") +
+scale_y_continuous(labels = scales::percent) +
+scale_x_date(breaks = pretty_breaks(n = 8)) +
+labs(title = "Rolling Standard Deviation", y = "") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+#### Calculo do desvio padrão da carteira
+```{r portfolio std}
+w<-pesos # os  pesos definidos para o portifolio
+sd_matrix_algebra_fii<- sqrt(t(w) %*% covariance_matrix_fii %*% w)
+sd_matrix_algebra_percent_fii<- 
+  round(sd_matrix_algebra_fii*100,2)%>% 
+  `colnames<-`("desvio padrão")
+sd_matrix_algebra_percent_fii[1,]
+
+```
+
+#covariancia
+
+```{r covariance matrix}
+
+covariance_matrix_fii <- cov(assetfii_returns_xts) 
+round(covariance_matrix_fii,5)
+
+
+
+```
+
+
+```{r contribuição marginal}
+(marginal_contribution_fii<-
+  w %*% covariance_matrix_fii / sd_matrix_algebra_fii[1, 1])
+
+```
+
+```{r component_contribution}
+(component_contribution_fii<-
+  marginal_contribution_fii * w) 
+```
+
+```{r verificação do sd}
+components_summed_fii <- rowSums(component_contribution_fii)
+
+components_summed_fii
+```
+Contribuição percentual de cada componente
+
+```{r contribuição percentual}
+component_percentages_fii<-
+  component_contribution_fii /  sd_matrix_algebra_fii[1, 1]
+
+round(component_percentages_fii, 3)
+```
+
+```{r component_contr_matrix_fun}
+component_contr_matrix_fun_fii <- function(returns, w){
+# create covariance matrix
+covariance_matrix_fii <-
+  cov(returns)
+# calculate portfolio standard deviation
+sd_portfolio_fii <-
+  sqrt(t(w) %*% covariance_matrix_fii %*% w)
+# calculate marginal contribution of each asset
+marginal_contribution_fii <-
+  w %*% covariance_matrix_fii / sd_portfolio_fii[1, 1]
+# multiply marginal by weights vecotr
+component_contribution_fii <-
+  marginal_contribution_fii * w
+# divide by total standard deviation to get percentages
+component_percentages_fii <-
+  component_contribution_fii / sd_portfolio_fii[1, 1]
+
+component_percentages_fii %>%
+  as_tibble() %>%
+  gather(asset, contribution)
+}
+```
+
+Testando nossa nova função:
+```{r teste da função}
+test_the_function_xts_fii<-
+  component_contr_matrix_fun_fii(assetfii_returns_xts, w)
+
+head(test_the_function_xts_fii,4)
+```
+
+```{r teste com tibble da função}
+# passando para tibble
+asset_returns_tibble_fii<-
+  assetfii_returns_xts %>%
+  tk_tbl(preserve_index = TRUE, rename_index = "date")
+# utilizando a função passando um tibble
+percentages_tibble_fii<-
+  asset_returns_tibble_fii %>%
+  select(-date) %>%
+  component_contr_matrix_fun_fii(., w)
+
+percentages_tibble_fii
+```
+
+
+```{r dodge}
+  percentages_tibble_fii %>%
+  mutate(weights = w) %>%
+  gather(type, percent, -asset) %>%
+  group_by(type) %>%
+  ggplot(aes(x = asset,
+             y = percent,
+             fill = type)) +
+  geom_col(position='dodge') +
+  scale_y_continuous(labels = percent) +
+  ggtitle("Contribuição percentual para volatilidade do portifólio") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme_minimal()+
+  labs(x="Fundo",y="Contribuição percentual")
+
+
+```
+
+
+
+
+
+
+
+```{r}
+assetfii_returns_dplyr_byhand %>%
+  ggplot(aes(x = date, y = returns)) +
+  geom_point(color = "darkblue") +
+  scale_x_date(breaks = pretty_breaks(n = 6)) +
+  ggtitle("Dispersão dos Retornos por data") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+índice sharpe
+```{r}
+sharpe_ifix_roll_ret<-
+  Retornos_ifix%>%
+  xts(Retornos_ifix$date)%>%
+  sharpe_ifix_roll_ret<-sharpe_ifix_roll_ret[,-c(2)]
+DF1[-c(2),]
+
+window<-24
+rf=0.0003
+
+sharpe_ifix<-rollapply(sharpe_ifix_roll_ret,
+              window,
+              function(x)
+                SharpeRatio(x,
+                            Rf = ,
+                            FUN = "StdDev")) %>%
+      na.omit() %>%
+  `colnames<-`("xts")
+
+
+
+  getData_b3_returns <- getSymbols("ABCP11.SA",
+               src = 'yahoo',
+               from = "2017-01-02",
+               to = "2019-12-31",
+               auto.assign = TRUE,
+               warnings = FALSE) %>% 
+      map(~Ad(get(.))) %>% 
+      reduce(merge) %>% 
+      `colnames<-`("FLMA11.SA") %>%
+      to.monthly(indexAt = "lastof", OHLC = FALSE) %>% 
+      Return.calculate(method = "log") %>% 
+      na.omit() 
+ 
+  
+  #calculo do indice sharpe da referencia e do rolamento
+
+  sharpe_ref_rol<-
+    rollapply(sharpe_ifix_roll_ret,
+              24,
+              function(x)
+                SharpeRatio(x,
+                            Rf = 0.07,
+                            FUN = "StdDev")) %>%
+      na.omit()
+
+
+
+```
+
