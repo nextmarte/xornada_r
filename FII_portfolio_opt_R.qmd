@@ -1,7 +1,8 @@
 ---
 title: "FII_portfolio_opt_R"
 bibliography: Xornada_resumo.bib
-format: html
+format: pdf
+always_allow_html: true
 editor: visual
 author: "Marcus Antonio Cardoso Ramalho"
 ---
@@ -60,7 +61,7 @@ This work relied on the use of RStudio and various R packages to manipulate and 
 
 For the assets selection some assumptions were made. Using a filter tool from the website Clube do FII[@clubefii], all assets with the IPO (Inicial public offering) prior the year of 2017 and mean monthly liquidity greater than R\$ 2,000.00 were selected.
 
-The chosen assets price data was downloaded within time window of 2017 to 2019 with the package quantmod[@ryanQuantmodQuantitativeFinancial2022] and Yahoo Finance[@yahoofi] as source. After the price data vesting, followed the monthly returns calculation using dplyr[@wickham2022]
+The chosen assets price data was downloaded within the time window of 2017 to 2019 with the package quantmod[@ryanQuantmodQuantitativeFinancial2022] and Yahoo Finance[@yahoofi] as source. After the price data vesting, followed the monthly returns calculation using dplyr[@wickham2022] and xts[@ryan2020] to transform the daily returns in monthly returns.
 
 ### Results
 
