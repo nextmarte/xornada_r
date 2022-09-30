@@ -1,0 +1,46 @@
+---
+title: "FII_portfolio_opt_R"
+format: html
+editor: visual
+author: "Marcus Antonio Cardoso Ramalho"
+---
+
+### Context
+
+This work is part of Marcus Ramalho undeargraduation final project in administration on Universidade Federal Fluminense, entitled: Análise de risco e rentabilidade de uma carteira de fundos de investimento imobiliário.
+
+This part of the project is focused on a method of optimization for a portfolio. The code itself, from the data aquisition to the optmization was adapted from various sources and built using the knowledge aquired by the student during the first covid-19 pandemic year when Dr. Ariel Levy offered a remote course on finance with R for administration students.
+
+To better understand this project first we need to present some simple concepts about FII's and risk in finance. FII's or Fundos de Investimento Imobiliário are a booming tipe of real state investment in Brazil, there was more than one milion investor in 2020 , in their majority small investor, comparing with 2010 when there was less than fifty thousand investors, the growth of the market is notable. The appeal of this investment is related to the changes in the Brazilian economy after 2016. With the lowest basic interest rate ever, market players saw in FII's an opportunity to earn more when compared to risk-free investments, with a lower risk compared to other equity assets.
+
+Explaim risk: Risk is...
+
+### Purpose
+
+This project aimed to select a optmized portfolio considering a scenario of low economy basic interest rate
+
+### Metodology
+
+There are a many ways for optmizing a portfolio in R
+
+Packages used:
+
+```{r}
+#| echo = TRUE
+#| message = FALSE
+#| warning = FALSE
+
+library(tidyverse)
+library(lubridate)
+library(tidyquant)
+library(tibbletime)
+library(quantmod)
+library(PerformanceAnalytics)
+library(plotly)
+
+```
+
+### Results
+
+### Conclusion
+
