@@ -1,7 +1,7 @@
 ---
 title: "FII_portfolio_opt_R"
 bibliography: Xornada_resumo.bib
-format: pdf
+format: docx
 always_allow_html: true
 editor: visual
 author: "Marcus Antonio Cardoso Ramalho"
@@ -44,8 +44,8 @@ To better understand this project first we need to present some simple concepts 
 ```{r}
 #| Graph_1, echo = FALSE, warning = FALSE
 
- (ifix_selic<-plot_ly(ret_comb,x = ~date, y = ~returns, type='scatter',mode='lines', color = ~asset) %>% 
-   layout(title="IFIX and SELIC returns compared jan/2017-dec/2019"))
+ (ifix_selic<-plot_ly(ret_comb,x = ~date, y = ~returns, type='scatter',mode='lines', color = ~asset, width = 500, height = 400) %>% 
+   layout(title="IFIX vs SELIC returns - jan/2017-dec/2019"))
   
 ```
 
