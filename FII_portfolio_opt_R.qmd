@@ -1,13 +1,13 @@
 ---
 title: "FII_portfolio_opt_R"
+bibliography: Xornada_resumo.bib
 format: html
 editor: visual
 author: "Marcus Antonio Cardoso Ramalho"
 ---
 
-Packages used:
-
-```{r warning=FALSE, message=FALSE}
+```{r}
+#| packages, echo = FALSE, warning = FALSE, mesage = FALSE
 
 
 library(tidyverse)
@@ -16,7 +16,6 @@ library(tidyquant)
 library(tibbletime)
 library(quantmod)
 library(PerformanceAnalytics)
-library(ggplot2)
 library(plotly)
 library(readxl)
 
@@ -49,8 +48,7 @@ To better understand this project first we need to present some simple concepts 
   
 ```
 
-
-Explaim risk: Risk is...
+### Risk
 
 ### Purpose
 
@@ -58,7 +56,7 @@ This project aimed to select a optmized portfolio considering a scenario of low 
 
 ### Metodology
 
-There are a many ways for optmizing a portfolio in R
+This work relied on the use of RStudio and various R packages to manipulate and understand the data, including: Tydiverse[@wickhamWelcomeTidyverse2019a] ,Lubridade [@grolemundDatesTimesMade2011]for general data manipulation, plotly[@sievertInteractiveWebbasedData] and ggplot2[@wickham2016] for data visualization and quantmode[@ryanQuantmodQuantitativeFinancial2022], tidyquant[@danchoTidyquantTidyQuantitative2022] and PerformanceAnalitycs[@petersonPerformanceAnalyticsEconometricTools2020] for financial data vesting, manipulation and computation.
 
 ### Results
 
