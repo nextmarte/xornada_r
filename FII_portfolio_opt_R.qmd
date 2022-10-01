@@ -9,11 +9,11 @@ format:
 always_allow_html: true
 keep-tex: true
 editor: visual
-author: "Ariel Levy$^{1}$; Marcus Antonio Cardoso Ramalho$^{2}$"
+author: "Ariel Levy$^{1}$; Marcus Antonio Cardoso Ramalho$^{1}$"
 abstract: "This resume discuss a method of real state funds investment portifolio optmization using R with the packages tidyverse and quantmod"
 keywords: "real state investment; portfolio optmization; Fundos de investimento imobiliário; Sharpe ratio; portfolio risk"
 geometry: margin=3cm
-affiliation: "Universidade Federal Fluminense - PPGAD, Alevy@id.uff.br; Universidade Federal Fluminense - PPGAD, marcusantonio@id.uff.br"
+affiliation: "Universidade Federal Fluminense - PPGAD"
 ---
 
 ```{=tex}
@@ -48,7 +48,7 @@ ret_comb<-rbind(selic,ifix)
 ```
 This work is part of Marcus Ramalho undeargraduation final project in administration on Universidade Federal Fluminense and advised by Ariel Levy, entitled: Análise de risco e rentabilidade de uma carteira de fundos de investimento imobiliário.
 
-The project addresses the data acquisition for optimizing Real Estate Investment Funds[@clubefii2020], FIIs. The code was adapted from several sources and built in, using the knowledge acquired by the student during the first covid-19 pandemic year when Dr. Ariel Levy offered a remote course on finance with R for administration students.
+The project addresses the data acquisition for optimizing Real Estate Investment Funds[@clubefii2020], FIIs. The code was adapted from several sources and built in, using the knowledge acquired by the student during the first covid-19 pandemic year when Ariel Levy offered a remote course on finance with R for administration students.
 
 To better understand this project, first, we need to present some simple concepts about FII and risk in finance. First, FII or Fundo de Investimento Imobiliário is a booming type of real estate investment in Brazil. There were more than one million investors in 2020, their small majority investor, compared with 2010 when there were less than fifty thousand investors. The market's growth is notable. The appeal of this investment is related to the changes in the Brazilian economy after 2016. With the lowest basic interest rate ever, market players saw in FII an opportunity to beat risk-free investments (figure 1), with a lower risk than other equity assets.
 
