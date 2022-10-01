@@ -1,6 +1,7 @@
 ---
 title: "Optimization of real state investment portfolio using R"
-bibliography: Xornada_resumo.bib
+bibliography: EVancouver.bib
+csl: vancouver.csl
 format:
   pdf:
     template-partials: 
@@ -9,9 +10,10 @@ always_allow_html: true
 keep-tex: true
 editor: visual
 author: "Ariel Levy$^{1}$; Marcus Antonio Cardoso Ramalho$^{2}$"
-abstract: "This resume discuss a method of real state investment portifolio optmization using R with the packages tidyverse and quantmod"
+abstract: "This resume discuss a method of real state funds investment portifolio optmization using R with the packages tidyverse and quantmod"
 keywords: "real state investment; portfolio optmization; Fundos de investimento imobiliário; Sharpe ratio; portfolio risk"
 geometry: margin=3cm
+affiliation: "Universidade Federal Fluminense - PPGAD, Alevy@id.uff.br; Universidade Federal Fluminense - PPGAD, marcusantonio@id.uff.br"
 ---
 
 ```{=tex}
@@ -46,7 +48,7 @@ ret_comb<-rbind(selic,ifix)
 ```
 This work is part of Marcus Ramalho undeargraduation final project in administration on Universidade Federal Fluminense and advised by Ariel Levy, entitled: Análise de risco e rentabilidade de uma carteira de fundos de investimento imobiliário.
 
-The project addresses the data acquisition for optimizing Real Estate Investment Funds, FIIs. The code was adapted from several sources and built in, using the knowledge acquired by the student during the first covid-19 pandemic year when Dr. Ariel Levy offered a remote course on finance with R for administration students.
+The project addresses the data acquisition for optimizing Real Estate Investment Funds[@clubefii], FIIs. The code was adapted from several sources and built in, using the knowledge acquired by the student during the first covid-19 pandemic year when Dr. Ariel Levy offered a remote course on finance with R for administration students.
 
 To better understand this project, first, we need to present some simple concepts about FII and risk in finance. First, FII or Fundo de Investimento Imobiliário is a booming type of real estate investment in Brazil. There were more than one million investors in 2020, their small majority investor, compared with 2010 when there were less than fifty thousand investors. The market's growth is notable. The appeal of this investment is related to the changes in the Brazilian economy after 2016. With the lowest basic interest rate ever, market players saw in FII an opportunity to beat risk-free investments (figure 1), with a lower risk than other equity assets.
 
@@ -85,29 +87,16 @@ $\beta$, witch, measures the portfolio risk sensibility to a specified market, h
 
 ```{=tex}
 \begin{center}
-\textbf{3. METODOLOGY AND CONCLUSION}
+\textbf{3. METODOLOGY}
 \end{center}
 ```
 This work relied on the use of RStudio and various R packages to manipulate and understand the data, including Tydiverse[@wickham2019], Lubridade[@grolemund2011]for general data manipulation, plotly[@sievert], and ggplot2[@wickham2016] for data visualization and quantmode[@ryan2022], tidyquant[@dancho2022] and PerformanceAnalitycs[@peterson2020] for financial data vesting, manipulation, and computation.
 
-For the asset selection, some assumptions were made, like a filter tool from the website Clube do FII[@clubefii] to select all assets with the IPO (Inicial public offering) before 2017 and mean monthly liquidity greater than R\$ 2,000.00.
-The chosen asset price data was downloaded within the time window from 2017 to 2019 with the package quantmod[@ryan2022a] and Yahoo Finance[@yahoofi] as a source. After the price data vesting, follow the monthly log returns calculation using dplyr[@wickham2022] and xts[@ryan2020] to transform the daily returns into monthly returns. Moreover, discarding all funds with inconsistent data or participation in the market index (IFIX) resulted in  24 assets selected.
+For the asset selection, some assumptions were made, like a filter tool from the website Clube do FII[@clubefii] to select all assets with the IPO (Inicial public offering) before 2017 and mean monthly liquidity greater than R\$ 2,000.00. The chosen asset price data was downloaded within the time window from 2017 to 2019 with the package quantmod[@ryan2022a] and Yahoo Finance[@yahoofi] as a source. After the price data vesting, follow the monthly log returns calculation using dplyr[@wickham2022] and xts[@ryan2020] to transform the daily returns into monthly returns. Moreover, discarding all funds with inconsistent data or participation in the market index (IFIX) resulted in 24 assets selected.
 
 Before we begin the simulations and optimization with the selected portfolio, we set a weight vector with a value for each asset. And the optimization took part by adapting a script from codingfinance.com[@codingf2018] and calculating the portfolio returns using weights generated with the base function runif[@rcoreteam2022], which uses uniform distribution. Finally, the market indicators were computed and filtered to show the tangent and minimum variance.
 
 ## References
 
-```{=tex}
-\newcounter{foo}
-\renewenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1 \everypar{\stepcounter{foo}\thefoo.~\setlength{\hangindent}{\cslhangindent}}\ignorespaces\else\everypar{\stepcounter{foo}\thefoo.~}\fi
-  % set entry spacing
-  \ifnum #2 > 0
-  \setlength{\parskip}{#2\baselineskip}
-  \fi
- }%
- {}
-```
+
+
