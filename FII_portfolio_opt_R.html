@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-0.9.626">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
@@ -47,7 +52,7 @@ div.csl-indent {
 <link href="FII_portfolio_opt_R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="FII_portfolio_opt_R_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="FII_portfolio_opt_R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="FII_portfolio_opt_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="FII_portfolio_opt_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script src="FII_portfolio_opt_R_files/libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <script src="FII_portfolio_opt_R_files/libs/plotly-binding-4.10.0/plotly.js"></script>
 <script src="FII_portfolio_opt_R_files/libs/typedarray-0.1/typedarray.min.js"></script>
@@ -99,8 +104,9 @@ div.csl-indent {
 <p>To better understand this project first we need to present some simple concepts about FII’s and risk in finance. FII’s or Fundos de Investimento Imobiliário are a booming tipe of real state investment in Brazil, there was more than one milion investor in 2020 , in their majority small investor, comparing with 2010 when there was less than fifty thousand investors, the growth of the market is notable. The appeal of this investment is related to the changes in the Brazilian economy after 2016. With the lowest basic interest rate ever, market players saw in FII’s an opportunity to earn more when compared to risk-free investments, with a lower risk compared to other equity assets.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-fd4a1f91415ed645953c" style="width:100%;height:520px;" class="plotly html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fd4a1f91415ed645953c">{"x":{"visdat":{"3b028f2726b":["function () ","plotlyVisDat"]},"cur_data":"3b028f2726b","attrs":{"3b028f2726b":{"x":{},"y":{},"mode":"lines","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"width":500,"height":400,"margin":{"b":40,"l":60,"t":25,"r":10},"title":"IFIX vs SELIC returns - jan/2017-dec/2019","xaxis":{"domain":[0,1],"automargin":true,"title":"date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"returns"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2017-02-28 00:00:00.000000","2017-03-31 00:00:00.000000","2017-04-30 00:00:00.000000","2017-05-31 00:00:00.000000","2017-06-30 00:00:00.000000","2017-07-31 00:00:00.000000","2017-08-31 00:00:00.000000","2017-09-30 00:00:00.000000","2017-10-31 00:00:00.000000","2017-11-30 00:00:00.000000","2017-12-31 00:00:00.000000","2018-01-31 00:00:00.000000","2018-02-28 00:00:00.000000","2018-03-31 00:00:00.000000","2018-04-30 00:00:00.000000","2018-05-31 00:00:00.000000","2018-06-30 00:00:00.000000","2018-07-31 00:00:00.000000","2018-08-31 00:00:00.000000","2018-09-30 00:00:00.000000","2018-10-31 00:00:00.000000","2018-11-30 00:00:00.000000","2018-12-31 00:00:00.000000","2019-01-31 00:00:00.000000","2019-02-28 00:00:00.000000","2019-03-31 00:00:00.000000","2019-04-30 00:00:00.000000","2019-05-31 00:00:00.000000","2019-06-30 00:00:00.000000","2019-07-31 00:00:00.000000","2019-08-31 00:00:00.000000","2019-09-30 00:00:00.000000","2019-10-31 00:00:00.000000","2019-11-30 00:00:00.000000","2019-12-31 00:00:00.000000"],"y":[0.0486690442962733,0.00195183502065201,0.00149545950944991,0.0102610199129607,0.00845508690895825,-0.00383291388238008,0.00861973003450793,0.0657629558541268,0.0023457373764661,-0.005920242918617,0.00604587272037166,0.026396162518078,0.0114561772775606,0.0199575151098248,-0.00860642873503735,-0.0526858487538774,-0.0401470568309616,0.0137538701875571,-0.00698554155352862,-0.00214546134430221,0.050421348972508,0.0258779459965663,0.0222171025177355,0.024706687815478,0.0103208296502869,0.0198680665089379,0.0102781794090047,0.0176363890051626,0.0287578985305697,0.0127375195156316,-0.00107536989340307,0.0103775751028536,0.0401302407367393,0.0352008252208111,0.10632953436715],"mode":"lines","type":"scatter","name":"IFIX.SA","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2017-02-28 00:00:00.000000","2017-03-31 00:00:00.000000","2017-04-30 00:00:00.000000","2017-05-31 00:00:00.000000","2017-06-30 00:00:00.000000","2017-07-31 00:00:00.000000","2017-08-31 00:00:00.000000","2017-09-30 00:00:00.000000","2017-10-31 00:00:00.000000","2017-11-30 00:00:00.000000","2017-12-31 00:00:00.000000","2018-01-31 00:00:00.000000","2018-02-28 00:00:00.000000","2018-03-31 00:00:00.000000","2018-04-30 00:00:00.000000","2018-05-31 00:00:00.000000","2018-06-30 00:00:00.000000","2018-07-31 00:00:00.000000","2018-08-31 00:00:00.000000","2018-09-30 00:00:00.000000","2018-10-31 00:00:00.000000","2018-11-30 00:00:00.000000","2018-12-31 00:00:00.000000","2019-01-31 00:00:00.000000","2019-02-28 00:00:00.000000","2019-03-31 00:00:00.000000","2019-04-30 00:00:00.000000","2019-05-31 00:00:00.000000","2019-06-30 00:00:00.000000","2019-07-31 00:00:00.000000","2019-08-31 00:00:00.000000","2019-09-30 00:00:00.000000","2019-10-31 00:00:00.000000","2019-11-30 00:00:00.000000","2019-12-31 00:00:00.000000"],"y":[0.0093,0.0099,0.0091,0.0091,0.0081,0.0082,0.0075,0.0065,0.0066,0.006,0.0058,0.0058,0.0051,0.005499,0.005189,0.005363,0.005189,0.005363,0.005363,0.005189,0.005363,0.005189,0.005363,0.0054,0.004843,0.005363,0.005189,0.0054,0.0052,0.0054,0.004961,0.0046,0.0046,0.004,0.0039],"mode":"lines","type":"scatter","name":"selic","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-afbac7a9a0dbdf68bb40" style="width:100%;height:520px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-afbac7a9a0dbdf68bb40">{"x":{"visdat":{"113c55d831c1":["function () ","plotlyVisDat"]},"cur_data":"113c55d831c1","attrs":{"113c55d831c1":{"x":{},"y":{},"mode":"lines","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"width":500,"height":400,"margin":{"b":40,"l":60,"t":25,"r":10},"title":"IFIX vs SELIC returns - jan/2017-dec/2019","xaxis":{"domain":[0,1],"automargin":true,"title":"date"},"yaxis":{"domain":[0,1],"automargin":true,"title":"returns"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["2017-02-28 00:00:00.000000","2017-03-31 00:00:00.000000","2017-04-30 00:00:00.000000","2017-05-31 00:00:00.000000","2017-06-30 00:00:00.000000","2017-07-31 00:00:00.000000","2017-08-31 00:00:00.000000","2017-09-30 00:00:00.000000","2017-10-31 00:00:00.000000","2017-11-30 00:00:00.000000","2017-12-31 00:00:00.000000","2018-01-31 00:00:00.000000","2018-02-28 00:00:00.000000","2018-03-31 00:00:00.000000","2018-04-30 00:00:00.000000","2018-05-31 00:00:00.000000","2018-06-30 00:00:00.000000","2018-07-31 00:00:00.000000","2018-08-31 00:00:00.000000","2018-09-30 00:00:00.000000","2018-10-31 00:00:00.000000","2018-11-30 00:00:00.000000","2018-12-31 00:00:00.000000","2019-01-31 00:00:00.000000","2019-02-28 00:00:00.000000","2019-03-31 00:00:00.000000","2019-04-30 00:00:00.000000","2019-05-31 00:00:00.000000","2019-06-30 00:00:00.000000","2019-07-31 00:00:00.000000","2019-08-31 00:00:00.000000","2019-09-30 00:00:00.000000","2019-10-31 00:00:00.000000","2019-11-30 00:00:00.000000","2019-12-31 00:00:00.000000"],"y":[0.0486690442962733,0.00195183502065201,0.00149545950944991,0.0102610199129607,0.00845508690895825,-0.00383291388238008,0.00861973003450793,0.0657629558541268,0.0023457373764661,-0.005920242918617,0.00604587272037166,0.026396162518078,0.0114561772775606,0.0199575151098248,-0.00860642873503735,-0.0526858487538774,-0.0401470568309616,0.0137538701875571,-0.00698554155352862,-0.00214546134430221,0.050421348972508,0.0258779459965663,0.0222171025177355,0.024706687815478,0.0103208296502869,0.0198680665089379,0.0102781794090047,0.0176363890051626,0.0287578985305697,0.0127375195156316,-0.00107536989340307,0.0103775751028536,0.0401302407367393,0.0352008252208111,0.10632953436715],"mode":"lines","type":"scatter","name":"IFIX.SA","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,1)"},"error_y":{"color":"rgba(102,194,165,1)"},"error_x":{"color":"rgba(102,194,165,1)"},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"x":["2017-02-28 00:00:00.000000","2017-03-31 00:00:00.000000","2017-04-30 00:00:00.000000","2017-05-31 00:00:00.000000","2017-06-30 00:00:00.000000","2017-07-31 00:00:00.000000","2017-08-31 00:00:00.000000","2017-09-30 00:00:00.000000","2017-10-31 00:00:00.000000","2017-11-30 00:00:00.000000","2017-12-31 00:00:00.000000","2018-01-31 00:00:00.000000","2018-02-28 00:00:00.000000","2018-03-31 00:00:00.000000","2018-04-30 00:00:00.000000","2018-05-31 00:00:00.000000","2018-06-30 00:00:00.000000","2018-07-31 00:00:00.000000","2018-08-31 00:00:00.000000","2018-09-30 00:00:00.000000","2018-10-31 00:00:00.000000","2018-11-30 00:00:00.000000","2018-12-31 00:00:00.000000","2019-01-31 00:00:00.000000","2019-02-28 00:00:00.000000","2019-03-31 00:00:00.000000","2019-04-30 00:00:00.000000","2019-05-31 00:00:00.000000","2019-06-30 00:00:00.000000","2019-07-31 00:00:00.000000","2019-08-31 00:00:00.000000","2019-09-30 00:00:00.000000","2019-10-31 00:00:00.000000","2019-11-30 00:00:00.000000","2019-12-31 00:00:00.000000"],"y":[0.0093,0.0099,0.0091,0.0091,0.0081,0.0082,0.0075,0.0065,0.0066,0.006,0.0058,0.0058,0.0051,0.005499,0.005189,0.005363,0.005189,0.005363,0.005363,0.005189,0.005363,0.005189,0.005363,0.0054,0.004843,0.005363,0.005189,0.0054,0.0052,0.0054,0.004961,0.0046,0.0046,0.004,0.0039],"mode":"lines","type":"scatter","name":"selic","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"textfont":{"color":"rgba(141,160,203,1)"},"error_y":{"color":"rgba(141,160,203,1)"},"error_x":{"color":"rgba(141,160,203,1)"},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>returns compared - ploted using plotly</p>
 </div>
 </div>
 </section>
@@ -109,19 +115,19 @@ div.csl-indent {
 </section>
 <section id="purpose" class="level3">
 <h3 class="anchored" data-anchor-id="purpose">Purpose</h3>
-<p>This project aimed to select a optimize a FII’s portfolio considering a scenario of low brazilian economy basic interest rate and accelerated real state market growing, focusing on some market indicators such as:</p>
+<p>This project aimed to simulate an optimize a FII portfolio considering the scenario of low brazilian economy basic interest rate and accelerated real state market growing, focusing on some market indicators such as:</p>
+<p>the covariance and the standard deviation to measure volatility and risk.</p>
 <p>Sharpe index, witch measures the adjusted profitability (<span class="math inline">\(P_r\)</span>) for the total portfolio risk (σ) , compared with a minimum accepted return (<span class="math inline">\(M_r\)</span>).</p>
 <p><span id="eq-Sharpe"><span class="math display">\[ SI=\frac{\overline{P_r}-M_r}{\sigma_{p}}  \tag{1}\]</span></span></p>
 <p><span class="math inline">\(\beta\)</span>, witch measures the portfolio sensibility to an specified market, in this case the IFIX was used as reference.<span class="math display">\[\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}\]</span></p>
-<p>in</p>
 </section>
 <section id="metodology" class="level3">
 <h3 class="anchored" data-anchor-id="metodology">Metodology</h3>
-<p>This work relied on the use of RStudio and various R packages to manipulate and understand the data, including: Tydiverse<span class="citation" data-cites="wickhamWelcomeTidyverse2019a">(<a href="#ref-wickhamWelcomeTidyverse2019a" role="doc-biblioref">Wickham et al. 2019</a>)</span> ,Lubridade <span class="citation" data-cites="grolemundDatesTimesMade2011">(<a href="#ref-grolemundDatesTimesMade2011" role="doc-biblioref">Grolemund and Wickham 2011</a>)</span>for general data manipulation, plotly<span class="citation" data-cites="sievertInteractiveWebbasedData">(<a href="#ref-sievertInteractiveWebbasedData" role="doc-biblioref">Sievert n.d.</a>)</span> and ggplot2<span class="citation" data-cites="wickham2016">(<a href="#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span> for data visualization and quantmode<span class="citation" data-cites="ryanQuantmodQuantitativeFinancial2022">(<a href="#ref-ryanQuantmodQuantitativeFinancial2022" role="doc-biblioref">Ryan et al. 2022</a>)</span>, tidyquant<span class="citation" data-cites="danchoTidyquantTidyQuantitative2022">(<a href="#ref-danchoTidyquantTidyQuantitative2022" role="doc-biblioref">Dancho and Vaughan 2022</a>)</span> and PerformanceAnalitycs<span class="citation" data-cites="petersonPerformanceAnalyticsEconometricTools2020">(<a href="#ref-petersonPerformanceAnalyticsEconometricTools2020" role="doc-biblioref">Peterson et al. 2020</a>)</span> for financial data vesting, manipulation and computation.</p>
+<p>This work relied on the use of RStudio and various R packages to manipulate and understand the data, including: Tydiverse<span class="citation" data-cites="wickham2019">(<a href="#ref-wickham2019" role="doc-biblioref">Wickham et al. 2019</a>)</span> ,Lubridade<span class="citation" data-cites="grolemund2011">(<a href="#ref-grolemund2011" role="doc-biblioref">Grolemund and Wickham 2011</a>)</span>for general data manipulation, plotly<span class="citation" data-cites="sievert">(<a href="#ref-sievert" role="doc-biblioref">Sievert, n.d.</a>)</span> and ggplot2<span class="citation" data-cites="wickham2016">(<a href="#ref-wickham2016" role="doc-biblioref">Wickham 2016</a>)</span> for data visualization and quantmode<span class="citation" data-cites="ryan2022">(<a href="#ref-ryan2022" role="doc-biblioref">Ryan et al. 2022a</a>)</span>, tidyquant<span class="citation" data-cites="dancho2022">(<a href="#ref-dancho2022" role="doc-biblioref">Dancho and Vaughan 2022</a>)</span> and PerformanceAnalitycs<span class="citation" data-cites="peterson2020">(<a href="#ref-peterson2020" role="doc-biblioref">Peterson et al. 2020</a>)</span> for financial data vesting, manipulation and computation.</p>
 <p>For the assets selection some assumptions were made. Using a filter tool from the website Clube do FII<span class="citation" data-cites="clubefii">(<a href="#ref-clubefii" role="doc-biblioref">ClubeFII, n.d.</a>)</span>, all assets with the IPO (Inicial public offering) prior the year of 2017 and mean monthly liquidity greater than R$ 2,000.00 were selected.</p>
-<p>The chosen assets price data was downloaded within the time window of 2017 to 2019 with the package quantmod<span class="citation" data-cites="ryanQuantmodQuantitativeFinancial2022">(<a href="#ref-ryanQuantmodQuantitativeFinancial2022" role="doc-biblioref">Ryan et al. 2022</a>)</span> and Yahoo Finance<span class="citation" data-cites="yahoofi">(<a href="#ref-yahoofi" role="doc-biblioref"><span>“Yahoo Finance - Stock Market Live, Quotes, Business &amp; Finance News,”</span> n.d.</a>)</span> as source. After the price data vesting, followed the monthly log returns calculation using dplyr<span class="citation" data-cites="wickham2022">(<a href="#ref-wickham2022" role="doc-biblioref">Wickham et al. 2022</a>)</span> and xts<span class="citation" data-cites="ryan2020">(<a href="#ref-ryan2020" role="doc-biblioref">Ryan et al. 2020</a>)</span> to transform the daily returns in monthly returns. All funds with inconsistent data and no participation on the market index (IFIX) were discarded at this phase and 24 assets were selected at the end.</p>
-<p>A sample weight vector was created to start the simulations and optimization with the selected portfolio, the optimization itself was made adapting a script from codingfinance.com<span class="citation" data-cites="portfoli2018">(<a href="#ref-portfoli2018" role="doc-biblioref"><span>“Portfolio Optimization in R :: Coding Finance <span></span>”</span> 2018</a>)</span> and was achieved calculating the portfolio returns using weights generated with the base function runif<span class="citation" data-cites="r:ther">(<a href="#ref-r:ther" role="doc-biblioref"><span>“R: The r Project for Statistical Computing,”</span> n.d.</a>)</span> witch uses uniform distribution.</p>
-<p>three indicators were calculated for each simmulation with the portfolio returns results to measure risk, market sensibility and the Sharpe Index</p>
+<p>The chosen assets price data was downloaded within the time window of 2017 to 2019 with the package quantmod<span class="citation" data-cites="ryan2022a">(<a href="#ref-ryan2022a" role="doc-biblioref">Ryan et al. 2022b</a>)</span> and Yahoo Finance<span class="citation" data-cites="yahoofi">(<a href="#ref-yahoofi" role="doc-biblioref"><span>“Yahoo Finance,”</span> n.d.</a>)</span> as source. After the price data vesting, followed the monthly log returns calculation using dplyr<span class="citation" data-cites="wickham2022">(<a href="#ref-wickham2022" role="doc-biblioref">Wickham et al. 2022</a>)</span> and xts<span class="citation" data-cites="ryan2020">(<a href="#ref-ryan2020" role="doc-biblioref">Ryan et al. 2020</a>)</span> to transform the daily returns in monthly returns. All funds with inconsistent data and no participation on the market index (IFIX) were discarded at this phase and 24 assets were selected at the end.</p>
+<p>A sample weight vector was created to start the simulations and optimization with the selected portfolio, the optimization itself was made adapting a script from codingfinance.com<span class="citation" data-cites="codingf2018">(<a href="#ref-codingf2018" role="doc-biblioref"><span>“Coding Finance”</span> 2018</a>)</span> and was achieved calculating the portfolio returns using weights generated with the base function runif<span class="citation" data-cites="rcoreteam2022">(<a href="#ref-rcoreteam2022" role="doc-biblioref">R Core Team 2022</a>)</span>witch uses uniform distribution.</p>
+<p>three indicators were calculated for each simulation with the portfolio returns results to measure risk, market sensibility and the Sharpe Index</p>
 </section>
 <section id="results" class="level3">
 <h3 class="anchored" data-anchor-id="results">Results</h3>
@@ -135,46 +141,67 @@ div.csl-indent {
 <div id="ref-clubefii" class="csl-entry" role="doc-biblioentry">
 ClubeFII. n.d. <span>“Clube FII - O maior site de Fundos Imobiliários do Brasil.”</span> <a href="https://www.clubefii.com.br">https://www.clubefii.com.br</a>.
 </div>
-<div id="ref-danchoTidyquantTidyQuantitative2022" class="csl-entry" role="doc-biblioentry">
-Dancho, Matt, and Davis Vaughan. 2022. <span>“Tidyquant: <span>Tidy</span> <span>Quantitative</span> <span>Financial</span> <span>Analysis</span>.”</span> <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.
+<div id="ref-codingf2018" class="csl-entry" role="doc-biblioentry">
+<span>“Coding Finance.”</span> 2018. <a href="https://www.codingfinance.com/post/2018-05-31-portfolio-opt-in-r/">https://www.codingfinance.com/post/2018-05-31-portfolio-opt-in-r/</a>.
 </div>
-<div id="ref-grolemundDatesTimesMade2011" class="csl-entry" role="doc-biblioentry">
-Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and <span>Times</span> <span>Made</span> <span>Easy</span> with <strong>Lubridate</strong>.”</span> <em>Journal of Statistical Software</em> 40 (3). <a href="https://doi.org/10.18637/jss.v040.i03">https://doi.org/10.18637/jss.v040.i03</a>.
+<div id="ref-dancho2022" class="csl-entry" role="doc-biblioentry">
+Dancho, Matt, and Davis Vaughan. 2022. <em>Tidyquant: Tidy Quantitative Financial Analysis</em>. <a href="https://CRAN.R-project.org/package=tidyquant">https://CRAN.R-project.org/package=tidyquant</a>.
 </div>
-<div id="ref-petersonPerformanceAnalyticsEconometricTools2020" class="csl-entry" role="doc-biblioentry">
-Peterson, Brian G., Peter Carl, Kris Boudt, Ross Bennett, Joshua Ulrich, Eric Zivot, Dries Cornilly, et al. 2020. <span>“<span>PerformanceAnalytics</span>: <span>Econometric</span> <span>Tools</span> for <span>Performance</span> and <span>Risk</span> <span>Analysis</span>.”</span> <a href="https://CRAN.R-project.org/package=PerformanceAnalytics">https://CRAN.R-project.org/package=PerformanceAnalytics</a>.
+<div id="ref-grolemund2011" class="csl-entry" role="doc-biblioentry">
+Grolemund, Garrett, and Hadley Wickham. 2011. <span>“Dates and Times Made Easy with <span><strong>Lubridate</strong></span>.”</span> <em>Journal of Statistical Software</em> 40 (3). <a href="https://doi.org/10.18637/jss.v040.i03">https://doi.org/10.18637/jss.v040.i03</a>.
 </div>
-<div id="ref-portfoli2018" class="csl-entry" role="doc-biblioentry">
-<span>“Portfolio Optimization in R :: Coding Finance <span></span>.”</span> 2018. <a href="https://www.codingfinance.com/post/2018-05-31-portfolio-opt-in-r/">https://www.codingfinance.com/post/2018-05-31-portfolio-opt-in-r/</a>.
+<div id="ref-peterson2020" class="csl-entry" role="doc-biblioentry">
+Peterson, Brian G., Peter Carl, Kris Boudt, Ross Bennett, Joshua Ulrich, Eric Zivot, Dries Cornilly, et al. 2020. <em>PerformanceAnalytics: Econometric Tools for Performance and Risk Analysis</em>. <a href="https://CRAN.R-project.org/package=PerformanceAnalytics">https://CRAN.R-project.org/package=PerformanceAnalytics</a>.
 </div>
-<div id="ref-r:ther" class="csl-entry" role="doc-biblioentry">
-<span>“R: The r Project for Statistical Computing.”</span> n.d. <a href="https://www.r-project.org/">https://www.r-project.org/</a>.
+<div id="ref-rcoreteam2022" class="csl-entry" role="doc-biblioentry">
+R Core Team. 2022. <span>“R: A Language and Environment for Statistical Computing.”</span> <a href="https://www.r-project.org/">https://www.r-project.org/</a>.
 </div>
 <div id="ref-ryan2020" class="csl-entry" role="doc-biblioentry">
 Ryan, Jeffrey A., Joshua M. Ulrich, Ross Bennett, and Corwin Joy. 2020. <em>Xts: eXtensible Time Series</em>. <a href="https://CRAN.R-project.org/package=xts">https://CRAN.R-project.org/package=xts</a>.
 </div>
-<div id="ref-ryanQuantmodQuantitativeFinancial2022" class="csl-entry" role="doc-biblioentry">
-Ryan, Jeffrey A., Joshua M. Ulrich, Ethan B. Smith, Wouter Thielen, Paul Teetor, and Steve Bronder. 2022. <span>“Quantmod: <span>Quantitative</span> <span>Financial</span> <span>Modelling</span> <span>Framework</span>.”</span> <a href="https://CRAN.R-project.org/package=quantmod">https://CRAN.R-project.org/package=quantmod</a>.
+<div id="ref-ryan2022" class="csl-entry" role="doc-biblioentry">
+Ryan, Jeffrey A., Joshua M. Ulrich, Ethan B. Smith, Wouter Thielen, Paul Teetor, and Steve Bronder. 2022a. <em>Quantmod: Quantitative Financial Modelling Framework</em>. <a href="https://CRAN.R-project.org/package=quantmod">https://CRAN.R-project.org/package=quantmod</a>.
 </div>
-<div id="ref-sievertInteractiveWebbasedData" class="csl-entry" role="doc-biblioentry">
-Sievert, Carson. n.d. <em>Interactive Web-Based Data Visualization with <span>R</span>, Plotly, and Shiny</em>. Accessed September 30, 2022. <a href="https://plotly-r.com/">https://plotly-r.com/</a>.
+<div id="ref-ryan2022a" class="csl-entry" role="doc-biblioentry">
+———. 2022b. <em>Quantmod: Quantitative Financial Modelling Framework</em>. <a href="https://CRAN.R-project.org/package=quantmod">https://CRAN.R-project.org/package=quantmod</a>.
+</div>
+<div id="ref-sievert" class="csl-entry" role="doc-biblioentry">
+Sievert, Carson. n.d. <em>Interactive Web-Based Data Visualization with r, Plotly, and Shiny</em>. <a href="https://plotly-r.com/">https://plotly-r.com/</a>.
 </div>
 <div id="ref-wickham2016" class="csl-entry" role="doc-biblioentry">
 Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. New York, NY: Springer Science+Business Media, LLC.
 </div>
-<div id="ref-wickhamWelcomeTidyverse2019a" class="csl-entry" role="doc-biblioentry">
-Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span>Tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+<div id="ref-wickham2019" class="csl-entry" role="doc-biblioentry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the Tidyverse.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
 </div>
 <div id="ref-wickham2022" class="csl-entry" role="doc-biblioentry">
 Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and RStudio. 2022. <em>Dplyr: A Grammar of Data Manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>.
 </div>
 <div id="ref-yahoofi" class="csl-entry" role="doc-biblioentry">
-<span>“Yahoo Finance - Stock Market Live, Quotes, Business &amp; Finance News.”</span> n.d. <a href="https://finance.yahoo.com/">https://finance.yahoo.com/</a>.
+<span>“Yahoo Finance.”</span> n.d. <a href="https://finance.yahoo.com/">https://finance.yahoo.com/</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -224,7 +251,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
