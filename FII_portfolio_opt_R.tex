@@ -205,7 +205,7 @@ de investimento imobiliário; Sharpe ratio; portfolio risk
 
 \vspace{0.4cm}
 
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, sharp corners, breakable, enhanced, boxrule=0pt, frame hidden, interior hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, enhanced, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, sharp corners, breakable]}{\end{tcolorbox}}\fi
 
 \pagestyle{empty}
 \setlength\parindent{0pt}
@@ -264,8 +264,9 @@ accepted return (\(M_r\)).
 
 \[ SI=\frac{\overline{P_r}-M_r}{\sigma_{p}} \]
 
-\(\beta\), witch, measures the portfolio risk sensibility to a specified
-market, here the IFIX was used as
+Capital asset pricing model(CAPM){[}3{]}, \(\beta\), witch, measures the
+portfolio risk sensibility to a specified non-diversifiable risk asset ,
+here the IFIX was used as
 reference.\[\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}\]
 
 \begin{center}
@@ -273,19 +274,19 @@ reference.\[\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}\]
 \end{center}
 
 This work relied on the use of RStudio and various R packages to
-manipulate and understand the data, including Tydiverse {[}3{]},
-Lubridade{[}4{]}for general data manipulation, plotly{[}5{]}, and
-ggplot2{[}6{]} for data visualization and quantmode{[}7{]},
-tidyquant{[}8{]} and PerformanceAnalitycs{[}9{]} for financial data
+manipulate and understand the data, including Tydiverse {[}4{]},
+Lubridade{[}5{]}for general data manipulation, plotly{[}6{]}, and
+ggplot2{[}7{]} for data visualization and quantmode{[}8{]},
+tidyquant{[}9{]} and PerformanceAnalitycs{[}10{]} for financial data
 vesting, manipulation, and computation.
 
 For the asset selection, some assumptions were made, like a filter tool
 from the website Clube do FII{[}1{]} to select all assets with the IPO
 (Inicial public offering) before 2017 and mean monthly liquidity greater
 than R\$ 2,000.00. The chosen asset price data was downloaded within the
-time window from 2017 to 2019 with the package quantmod{[}7{]}and Yahoo
-Finance{[}10{]} as a source. After the price data vesting, follow the
-monthly log returns calculation using dplyr{[}11{]} and xts{[}12{]} to
+time window from 2017 to 2019 with the package quantmod{[}8{]}and Yahoo
+Finance{[}11{]} as a source. After the price data vesting, follow the
+monthly log returns calculation using dplyr{[}12{]} and xts{[}13{]} to
 transform the daily returns into monthly returns. Moreover, discarding
 all funds with inconsistent data or participation in the market index
 (IFIX) resulted in 24 assets selected.
@@ -293,13 +294,13 @@ all funds with inconsistent data or participation in the market index
 Before we begin the simulations and optimization with the selected
 portfolio, we set a weight vector with a value for each asset. And the
 optimization took part by adapting a script from
-codingfinance.com{[}13{]} and calculating the portfolio returns using
-weights generated with the base function runif{[}14{]}, which uses
+codingfinance.com{[}14{]} and calculating the portfolio returns using
+weights generated with the base function runif{[}15{]}, which uses
 uniform distribution. Finally, the market indicators were computed and
 filtered to show the tangent and minimum variance.
 
 \begin{center}
-\textbf{3. METODOLOGY}
+\textbf{3. DISCUSSION AND CONCLUSION}
 \end{center}
 
 \hypertarget{references}{%
@@ -319,71 +320,78 @@ O maior site de Fundos Imobiliários do Brasil} 2020.}
 Management 1994;21:49--58.
 \url{https://doi.org/10.3905/jpm.1994.409501}.}
 
-\leavevmode\vadjust pre{\hypertarget{ref-wickhamWelcomeTidyverse2019a}{}}%
+\leavevmode\vadjust pre{\hypertarget{ref-sharpe1964}{}}%
 \CSLLeftMargin{{[}3{]} }%
+\CSLRightInline{Sharpe WF. CAPITAL ASSET PRICES: A THEORY OF MARKET
+EQUILIBRIUM UNDER CONDITIONS OF RISK*. The Journal of Finance
+1964;19:425--42.
+\url{https://doi.org/10.1111/j.1540-6261.1964.tb02865.x}.}
+
+\leavevmode\vadjust pre{\hypertarget{ref-wickhamWelcomeTidyverse2019a}{}}%
+\CSLLeftMargin{{[}4{]} }%
 \CSLRightInline{Wickham H, Averick M, Bryan J, Chang W, McGowan L,
 François R, et al. Welcome to the {Tidyverse}. Journal of Open Source
 Software 2019;4:1686. \url{https://doi.org/10.21105/joss.01686}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-grolemundDatesTimesMade2011}{}}%
-\CSLLeftMargin{{[}4{]} }%
+\CSLLeftMargin{{[}5{]} }%
 \CSLRightInline{Grolemund G, Wickham H. Dates and {Times} {Made} {Easy}
 with \textbf{lubridate}. Journal of Statistical Software 2011;40.
 \url{https://doi.org/10.18637/jss.v040.i03}.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-sievertInteractiveWebbasedData2022}{}}%
-\CSLLeftMargin{{[}5{]} }%
+\CSLLeftMargin{{[}6{]} }%
 \CSLRightInline{Sievert C. \href{https://plotly-r.com/}{Interactive
 web-based data visualization with {R}, plotly, and shiny}. 2022.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wickham2016}{}}%
-\CSLLeftMargin{{[}6{]} }%
+\CSLLeftMargin{{[}7{]} }%
 \CSLRightInline{Wickham H. ggplot2: Elegant graphics for data analysis.
 New York, NY: Springer Science+Business Media, LLC; 2016.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-ryanQuantmodQuantitativeFinancial2022}{}}%
-\CSLLeftMargin{{[}7{]} }%
+\CSLLeftMargin{{[}8{]} }%
 \CSLRightInline{Ryan JA, Ulrich JM, Smith EB, Thielen W, Teetor P,
 Bronder S. \href{https://CRAN.R-project.org/package=quantmod}{Quantmod:
 {Quantitative} {Financial} {Modelling} {Framework}} 2022.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-danchoTidyquantTidyQuantitative2022}{}}%
-\CSLLeftMargin{{[}8{]} }%
+\CSLLeftMargin{{[}9{]} }%
 \CSLRightInline{Dancho M, Vaughan D.
 \href{https://CRAN.R-project.org/package=tidyquant}{Tidyquant: {Tidy}
 {Quantitative} {Financial} {Analysis}} 2022.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-petersonPerformanceAnalyticsEconometricTools2020}{}}%
-\CSLLeftMargin{{[}9{]} }%
+\CSLLeftMargin{{[}10{]} }%
 \CSLRightInline{Peterson BG, Carl P, Boudt K, Bennett R, Ulrich J, Zivot
 E, et al.
 \href{https://CRAN.R-project.org/package=PerformanceAnalytics}{{PerformanceAnalytics}:
 {Econometric} {Tools} for {Performance} and {Risk} {Analysis}} 2020.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-YahooFinance2022}{}}%
-\CSLLeftMargin{{[}10{]} }%
+\CSLLeftMargin{{[}11{]} }%
 \CSLRightInline{\href{https://finance.yahoo.com/}{Yahoo {Finance}}
 2022.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wickhamDplyrGrammarData2022}{}}%
-\CSLLeftMargin{{[}11{]} }%
+\CSLLeftMargin{{[}12{]} }%
 \CSLRightInline{Wickham H, François R, Henry L, Müller K, RStudio.
 \href{https://CRAN.R-project.org/package=dplyr}{Dplyr: {A} {Grammar} of
 {Data} {Manipulation}} 2022.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-ryanXtsEXtensibleTime2020}{}}%
-\CSLLeftMargin{{[}12{]} }%
+\CSLLeftMargin{{[}13{]} }%
 \CSLRightInline{Ryan JA, Ulrich JM, Bennett R, Joy C.
 \href{https://CRAN.R-project.org/package=xts}{Xts: {eXtensible} {Time}
 {Series}} 2020.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-CodingFinance0000}{}}%
-\CSLLeftMargin{{[}13{]} }%
+\CSLLeftMargin{{[}14{]} }%
 \CSLRightInline{\href{https://www.codingfinance.com/post/2018-05-31-portfolio-opt-in-r/}{Coding
 {Finance}}. Portfolio Optimization in R.}
 
 \leavevmode\vadjust pre{\hypertarget{ref-rcoreteamLanguageEnvironmentStatistical2022}{}}%
-\CSLLeftMargin{{[}14{]} }%
+\CSLLeftMargin{{[}15{]} }%
 \CSLRightInline{Team RC. \href{https://www.r-project.org/}{R: {A}
 {Language} and {Environment} for {Statistical} {Computing}} 2022.}
 

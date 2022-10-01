@@ -84,7 +84,7 @@ Sharpe ratio[@sharpe1994], which measures the adjusted profitability ($P_r$) for
 
 $$ SI=\frac{\overline{P_r}-M_r}{\sigma_{p}} $$
 
-$\beta$, witch, measures the portfolio risk sensibility to a specified market, here the IFIX was used as reference.$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
+Capital asset pricing model(CAPM)[@sharpe1964], $\beta$, witch, measures the portfolio risk sensibility to a specified non-diversifiable risk asset , here the IFIX was used as reference.$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
 
 ```{=tex}
 \begin{center}
@@ -102,5 +102,4 @@ Before we begin the simulations and optimization with the selected portfolio, we
 \textbf{3. DISCUSSION AND CONCLUSION}
 \end{center}
 ```
-
 ## References
