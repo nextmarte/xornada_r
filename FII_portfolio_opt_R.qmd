@@ -56,6 +56,7 @@ To better understand this project, first, we need to present some simple concept
 #| label: Graph_1
 #| echo : false 
 #| warning : false
+#| fig-align: center
 #| fig-subcap:
 #|    "returns compared - ggplot2"
 
@@ -95,5 +96,11 @@ This work relied on the use of RStudio and various R packages to manipulate and 
 For the asset selection, some assumptions were made, like a filter tool from the website Clube do FII[@clubefii2020] to select all assets with the IPO (Inicial public offering) before 2017 and mean monthly liquidity greater than R\$ 2,000.00. The chosen asset price data was downloaded within the time window from 2017 to 2019 with the package quantmod[@ryanQuantmodQuantitativeFinancial2022]and Yahoo Finance[@YahooFinance2022] as a source. After the price data vesting, follow the monthly log returns calculation using dplyr[@wickhamDplyrGrammarData2022] and xts[@ryanXtsEXtensibleTime2020] to transform the daily returns into monthly returns. Moreover, discarding all funds with inconsistent data or participation in the market index (IFIX) resulted in 24 assets selected.
 
 Before we begin the simulations and optimization with the selected portfolio, we set a weight vector with a value for each asset. And the optimization took part by adapting a script from codingfinance.com[@CodingFinance0000] and calculating the portfolio returns using weights generated with the base function runif[@rcoreteamLanguageEnvironmentStatistical2022], which uses uniform distribution. Finally, the market indicators were computed and filtered to show the tangent and minimum variance.
+
+```{=tex}
+\begin{center}
+\textbf{3. DISCUSSION AND CONCLUSION}
+\end{center}
+```
 
 ## References
