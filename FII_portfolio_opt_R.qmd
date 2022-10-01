@@ -12,7 +12,6 @@ author: "Ariel Levy$^{1}$; Marcus Antonio Cardoso Ramalho$^{2}$"
 abstract: "This resume discuss a method of real state investment portifolio optmization using R with the packages tidyverse and quantmod"
 keywords: "real state investment; portfolio optmization; Fundos de investimento imobiliário; Sharpe ratio; portfolio risk"
 geometry: margin=3cm
-css: styles.css
 ---
 
 ```{=tex}
@@ -56,7 +55,7 @@ To better understand this project first we need to present some simple concepts 
 #| echo : false 
 #| warning : false
 #| fig-subcap:
-#|    "returns compared - ploted using plotly"
+#|    "returns compared - ggplot2"
 
 ggplot(ret_comb) +
   aes(x = date, y = returns, colour = asset) +
