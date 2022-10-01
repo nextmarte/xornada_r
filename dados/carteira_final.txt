@@ -1,0 +1,25 @@
+Ticker	Categoria
+ABCP11.SA	Shopping/Varejo
+BBPO11.SA	Agencias Bancárias
+BPFF11.SA	Fundo de Fundos
+BRCR11.SA	Lajes Comerciais
+FIGS11.SA	Shopping/Varejo
+FIIB11.SA	Logisticos
+FLMA11.SA	Lajes Comerciais
+FVPQ11.SA	Shopping/Varejo
+HGBS11.SA	Shopping/Varejo
+HGCR11.SA	Recebíveis Imobiliários
+HGLG11.SA	Logisticos
+HGRE11.SA	Lajes Comerciais
+JSRE11.SA	Lajes Comerciais
+KNCR11.SA	Recebíveis Imobiliários
+KNRI11.SA	Híbrido
+MFII11.SA	Incorporação Residencial
+MXRF11.SA	Recebíveis Imobiliários
+ONEF11.SA	Lajes Comerciais
+RNGO11.SA	Lajes Comerciais
+SDIL11.SA	Logisticos
+SPTW11.SA	Lajes Comerciais
+VLOL11.SA	Lajes Comerciais
+VRTA11.SA	Recebíveis Imobiliários
+XPCM11.SA	Lajes Comerciais
