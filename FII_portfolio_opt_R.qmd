@@ -44,11 +44,11 @@ ret_comb<-rbind(selic,ifix)
 \textbf{1. INTRODUCTION}
 \end{center}
 ```
-This work is part of Marcus Ramalho undeargraduation final project in administration on Universidade Federal Fluminense, entitled: Análise de risco e rentabilidade de uma carteira de fundos de investimento imobiliário.
+This work is part of Marcus Ramalho undeargraduation final project in administration on Universidade Federal Fluminense and advised by Ariel Levy, entitled: Análise de risco e rentabilidade de uma carteira de fundos de investimento imobiliário.
 
-This part of the project is focused on a method of optimization for a portfolio. The code itself, from the data aquisition to the optmization was adapted from various sources and built using the knowledge aquired by the student during the first covid-19 pandemic year when Dr. Ariel Levy offered a remote course on finance with R for administration students.
+The project addresses the data acquisition for optimizing Real Estate Investment Funds, FIIs. The code was adapted from several sources and built in, using the knowledge acquired by the student during the first covid-19 pandemic year when Dr. Ariel Levy offered a remote course on finance with R for administration students.
 
-To better understand this project first we need to present some simple concepts about FII's and risk in finance. FII's or Fundos de Investimento Imobiliário are a booming tipe of real state investment in Brazil, there was more than one milion investor in 2020 , in their majority small investor, comparing with 2010 when there was less than fifty thousand investors, the growth of the market is notable. The appeal of this investment is related to the changes in the Brazilian economy after 2016. With the lowest basic interest rate ever, market players saw in FII's an opportunity to earn more when compared to risk-free investments (figure 1), with a lower risk compared to other equity assets.
+To better understand this project, first, we need to present some simple concepts about FII and risk in finance. First, FII or Fundo de Investimento Imobiliário is a booming type of real estate investment in Brazil. There were more than one million investors in 2020, their small majority investor, compared with 2010 when there were less than fifty thousand investors. The market's growth is notable. The appeal of this investment is related to the changes in the Brazilian economy after 2016. With the lowest basic interest rate ever, market players saw in FII an opportunity to beat risk-free investments (figure 1), with a lower risk than other equity assets.
 
 ```{r}
 #| label: Graph_1
@@ -73,28 +73,27 @@ ggplot(ret_comb) +
 \textbf{2. OBJECTIVE}
 \end{center}
 ```
-This project aimed to simulate an optimize a FII portfolio considering the scenario of low brazilian economy basic interest rate and accelerated real state market growing, focusing on some market indicators such as:
+This project aimed to simulate an optimized FII portfolio considering the scenario of a low Brazilian risk-free interest rate and an accelerated real state market growth, focusing on some market indicators such as:
 
-the covariance and the standard deviation to measure volatility and risk.
+The covariance and the standard deviation to measure volatility and risk.
 
-Sharpe index, witch measures the adjusted profitability ($P_r$) for the total portfolio risk ($\sigma$) , compared with a minimum accepted return ($M_r$).
+Sharpe index, which measures the adjusted profitability ($P_r$) for the total portfolio risk ($\sigma$), compared with a minimum accepted return ($M_r$).
 
 $$ SI=\frac{\overline{P_r}-M_r}{\sigma_{p}} $$
 
-$\beta$, witch measures the portfolio sensibility to an specified market, in this case the IFIX was used as reference.$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
+$\beta$, witch, measures the portfolio risk sensibility to a specified market, here the IFIX was used as reference.$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
 
 ```{=tex}
 \begin{center}
 \textbf{3. METODOLOGY AND CONCLUSION}
 \end{center}
 ```
-This work relied on the use of RStudio and various R packages to manipulate and understand the data, including: Tydiverse[@wickham2019] ,Lubridade[@grolemund2011]for general data manipulation, plotly[@sievert] and ggplot2[@wickham2016] for data visualization and quantmode[@ryan2022], tidyquant[@dancho2022] and PerformanceAnalitycs[@peterson2020] for financial data vesting, manipulation and computation.
+This work relied on the use of RStudio and various R packages to manipulate and understand the data, including Tydiverse[@wickham2019], Lubridade[@grolemund2011]for general data manipulation, plotly[@sievert], and ggplot2[@wickham2016] for data visualization and quantmode[@ryan2022], tidyquant[@dancho2022] and PerformanceAnalitycs[@peterson2020] for financial data vesting, manipulation, and computation.
 
-For the assets selection some assumptions were made. Using a filter tool from the website Clube do FII[@clubefii], all assets with the IPO (Inicial public offering) prior the year of 2017 and mean monthly liquidity greater than R\$ 2,000.00 were selected.
+For the asset selection, some assumptions were made, like a filter tool from the website Clube do FII[@clubefii] to select all assets with the IPO (Inicial public offering) before 2017 and mean monthly liquidity greater than R\$ 2,000.00.
+The chosen asset price data was downloaded within the time window from 2017 to 2019 with the package quantmod[@ryan2022a] and Yahoo Finance[@yahoofi] as a source. After the price data vesting, follow the monthly log returns calculation using dplyr[@wickham2022] and xts[@ryan2020] to transform the daily returns into monthly returns. Moreover, discarding all funds with inconsistent data or participation in the market index (IFIX) resulted in  24 assets selected.
 
-The chosen assets price data was downloaded within the time window of 2017 to 2019 with the package quantmod[@ryan2022a] and Yahoo Finance[@yahoofi] as source. After the price data vesting, followed the monthly log returns calculation using dplyr[@wickham2022] and xts[@ryan2020] to transform the daily returns in monthly returns. All funds with inconsistent data and no participation on the market index (IFIX) were discarded at this phase and 24 assets were selected at the end.
-
-A sample weight vector was created to start the simulations and optimization with the selected portfolio, the optimization itself was made adapting a script from codingfinance.com[@codingf2018] and was achieved calculating the portfolio returns using weights generated with the base function runif[@rcoreteam2022]witch uses uniform distribution. Folowind this step the market indicators were calculated and filtered to view the tangent portfolio and the minimum variance portfolio.
+Before we begin the simulations and optimization with the selected portfolio, we set a weight vector with a value for each asset. And the optimization took part by adapting a script from codingfinance.com[@codingf2018] and calculating the portfolio returns using weights generated with the base function runif[@rcoreteam2022], which uses uniform distribution. Finally, the market indicators were computed and filtered to show the tangent and minimum variance.
 
 ## References
 
