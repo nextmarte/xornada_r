@@ -80,9 +80,9 @@ This project aimed to simulate an optimized FII portfolio considering the scenar
 
 The covariance and the standard deviation to measure volatility and risk.
 
-Sharpe ratio[@sharpe1994], which measures the adjusted profitability ($P_r$) for the total portfolio risk ($\sigma$), compared with a minimum accepted return ($M_r$).
+Sharpe ratio[@sharpe1994], which measures the adjusted profitability ($P_r$) for the total portfolio risk ($\sigma$), compared with the risk free rate ($R_{fr}$).
 
-$$ SI=\frac{\overline{P_r}-M_r}{\sigma_{p}} $$
+$$ SI=\frac{\overline{P_r}-R_{fr}}{\sigma_{p}} $$
 
 Capital asset pricing model(CAPM)[@sharpe1964], $\beta$, witch, measures the portfolio risk sensibility to a specified non-diversifiable risk asset , here the IFIX was used as reference.$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
 

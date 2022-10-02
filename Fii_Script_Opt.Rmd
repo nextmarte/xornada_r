@@ -25,7 +25,6 @@ library(PortfolioAnalytics)
 library(timetk)
 library(plotly)
 library(readxl)
-library(rio)
 
 ###############################################################################
 #
@@ -35,7 +34,6 @@ library(rio)
 
 #Baixa os preços dos ativos salvos no vetor ativos
 
-carteira_final<-read.delim("dados/carteira_final.txt")
 
 ativos<-carteira_final$Ticker
 
@@ -54,26 +52,13 @@ pricesfii <-
 #Calculo dos retonos
 
  assetfii_returns_dplyr_byhand <- 
-  pricesfii %>% 
-  to.monthly(indexAt = "lastof", OHLC = FALSE) %>%
-  # converter o índice para data
+  pricesfii %>%  # converter o índice para data
   data.frame(date = index(.)) %>%
   remove_rownames() %>% 
   gather(asset, returns, -date) %>% 
   group_by(asset) %>%
   mutate(returns = ((log(returns) - log(lag(returns)))))%>%
    na.omit()
- 
- 
-  #obtendo os preços ajustados mensalmente
- pricesfii_monthly <- to.monthly(pricesfii,
-                                 indexAt = "lastof",
-                                 OHLC = FALSE)
- #obtendo os retornos mensais
-  assetfii_returns_xts <-
-  Return.calculate(pricesfii_monthly, 
-                   method = "log") %>% 
-  na.omit() 
  
  
 ```
@@ -92,31 +77,31 @@ cov_mat <- cov(assetfii_returns_xts)
 
 #criando um vetor de pesos com pesos temporários
 
-wts <- runif(length(ativos)) 
-wts <- wts/sum(wts)
+
+
+
 
 #a soma dos pesos deve ser igual a 1
 
-(sum(wts))
+print(sum(wts))
 
 
-(port_returns <- (sum(wts * mean_ret)))
+port_returns <- (sum(wts * mean_ret))
 
 
-(port_risk <- sqrt(t(wts) %*% (cov_mat %*% wts)))
+port_risk <- sqrt(t(wts) %*% (cov_mat %*% wts))
 
-(rfr<-0.0058)
-
-(sharpe_ratio <- port_returns-rfr/port_risk)
+  
+sharpe_ratio <- port_returns-rfr/port_risk
 
 
 #numero de portifólios a serem gerados
-num_port <- 50000
+num_port <- 5000
 
 # Matriz para guardar os pepsos
 
-(all_wts <- matrix(nrow = num_port,
-                  ncol = length(ativos)))
+all_wts <- matrix(nrow = num_port,
+                  ncol = length(ativos))
 
 #vetor vazio para guardar os retornos
 
