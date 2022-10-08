@@ -30,6 +30,7 @@ library(quantmod)
 library(PerformanceAnalytics)
 library(plotly)
 library(readxl)
+library(timetk)
 
 
 #loading data
@@ -84,7 +85,9 @@ Sharpe ratio[@sharpe1994], which measures the adjusted profitability ($P_r$) for
 
 $$ SI=\frac{\overline{P_r}-R_{fr}}{\sigma_{p}} $$
 
-Capital asset pricing model(CAPM)[@sharpe1964], $\beta$, witch, measures the portfolio risk sensibility to a specified non-diversifiable risk asset , here the IFIX was used as reference.$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
+Capital asset pricing model(CAPM)[@sharpe1964], $\beta$, witch, measures the portfolio risk sensibility to a specified non-diversifiable risk asset , here the IFIX was used as reference.
+
+$$\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}$$
 
 ```{=tex}
 \begin{center}
@@ -93,13 +96,44 @@ Capital asset pricing model(CAPM)[@sharpe1964], $\beta$, witch, measures the por
 ```
 This work relied on the use of RStudio and various R packages to manipulate and understand the data, including Tydiverse [@wickhamWelcomeTidyverse2019a], Lubridade[@grolemundDatesTimesMade2011]for general data manipulation, plotly[@sievertInteractiveWebbasedData2022], and ggplot2[@wickham2016] for data visualization and quantmode[@ryanQuantmodQuantitativeFinancial2022], tidyquant[@danchoTidyquantTidyQuantitative2022] and PerformanceAnalitycs[@petersonPerformanceAnalyticsEconometricTools2020] for financial data vesting, manipulation, and computation.
 
-For the asset selection, some assumptions were made, like a filter tool from the website Clube do FII[@clubefii2020] to select all assets with the IPO (Inicial public offering) before 2017 and mean monthly liquidity greater than R\$ 2,000.00. The chosen asset price data was downloaded within the time window from 2017 to 2019 with the package quantmod[@ryanQuantmodQuantitativeFinancial2022]and Yahoo Finance[@YahooFinance2022] as a source. After the price data vesting, follow the monthly log returns calculation using dplyr[@wickhamDplyrGrammarData2022] and xts[@ryanXtsEXtensibleTime2020] to transform the daily returns into monthly returns. Moreover, discarding all funds with inconsistent data or participation in the market index (IFIX) resulted in 24 assets selected.
+For the asset selection, some assumptions were made, like a filter tool from the website Clube do FII[@clubefii2020] to select all assets with the IPO (Inicial public offering) before 2017 and mean monthly liquidity greater than R\$ 2,000.00. The chosen asset price data was downloaded within the time window from 2017 to 2019 with the package quantmod[@ryanQuantmodQuantitativeFinancial2022]and Yahoo Finance[@YahooFinance2022] as a source. After the price data vesting, follow the daily log returns calculation using dplyr[@wickhamDplyrGrammarData2022] and xts[@ryanXtsEXtensibleTime2020] to transform the daily returns into monthly returns. Moreover, discarding all funds with inconsistent data or participation in the market index (IFIX) resulted in 24 assets selected.
 
-Before we begin the simulations and optimization with the selected portfolio, we set a weight vector with a value for each asset. And the optimization took part by adapting a script from codingfinance.com[@CodingFinance0000] and calculating the portfolio returns using weights generated with the base function runif[@rcoreteamLanguageEnvironmentStatistical2022], which uses uniform distribution. Finally, the market indicators were computed and filtered to show the tangent and minimum variance.
+Before we begin the simulations and optimization with the selected portfolio, we set a weight vector with a value for each asset. And the optimization took part by adapting a script from codingfinance.com[@CodingFinance0000] and calculating the portfolio returns using weights generated with the base function runif[@rcoreteamLanguageEnvironmentStatistical2022], which uses uniform distribution. Finally, the market indicators were computed and filtered to show the tangent and minimum variance portfolios.
+
+\newpage
 
 ```{=tex}
 \begin{center}
-\textbf{3. DISCUSSION AND CONCLUSION}
+\textbf{4. DISCUSSION}
 \end{center}
 ```
+We simulated two scenarios to comprehend the differences in portfolio allocation due to an increase in interest rates. The first one has 2% per year fixed, and the second is 13% per year fixed. For each, we compute the assets portfolio within the chosen assets. We expected changes in the portfolio due to interest rate changes. However, as we did not drop assets, the 24 selected still show some weight in portfolio selections. Weights in the portfolio investment would change, so we grouped the portfolio assets by category, accumulating the respective asset weights to understand the changes. As we did not drop assets, the 24 selected still show some weight in portfolio selections (see table 1). Moreover, after computations, we compared the minimum variance and tangent portfolios.
+
+![Table 1 -Portfolios category weights participation by interest rate](images/categorias.png){fig-align="center" width="70%"}
+
+As shown in the table, most categories experimented with some changes. The most remarkable is the consistency of the class Fundos de Lajes Comerciais. These buildings offer infrastructure for installing large companies, explained as those with more financial power in rent payment liquidity. The same reason may explain the Shopping Varejo or malls, which have very comprehensive rent contracts and double the weight participations in the portfolios due to interest increases.
+
+Other classes show long rent contracts, like bank agencies and logistics operations, so they lose attractivity as interest rates increase. While the categories Recebiveis Imobiliarios and Incorporações Residenciais show stability Fundo de Fundos e Hibridos have lost participation probably because their portfolio bonds would not adjust at the same pace.
+
+```{=tex}
+\begin{center}
+\textbf{5. CONCLUSION}
+\end{center}
+```
+When we analyzed the data for different interest rates, we expected changes in the portfolio composition. Inasmuch, variations were not precisely as expected like the Fundos de Fundos, as funds of bonds should increase participation due to expected returns.
+
+We will add some new features as studies continue. Drop some of the assets with lower participation to enhance the portfolio management, and set up new filters to apply to the assets selection.
+
+```{r}
+#| label: Table 1
+#| echo : false 
+#| warning : false
+#| fig-align: center
+#| fig-subcap:
+#|    "returns compared - ggplot2"
+
+```
+
+\newpage
+
 ## References

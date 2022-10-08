@@ -205,7 +205,7 @@ de investimento imobiliário; Sharpe ratio; portfolio risk
 
 \vspace{0.4cm}
 
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, enhanced, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, sharp corners, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, boxrule=0pt, sharp corners, enhanced, breakable, interior hidden]}{\end{tcolorbox}}\fi
 
 \pagestyle{empty}
 \setlength\parindent{0pt}
@@ -259,15 +259,16 @@ The covariance and the standard deviation to measure volatility and
 risk.
 
 Sharpe ratio{[}2{]}, which measures the adjusted profitability (\(P_r\))
-for the total portfolio risk (\(\sigma\)), compared with a minimum
-accepted return (\(M_r\)).
+for the total portfolio risk (\(\sigma\)), compared with the risk free
+rate (\(R_{fr}\)).
 
-\[ SI=\frac{\overline{P_r}-M_r}{\sigma_{p}} \]
+\[ SI=\frac{\overline{P_r}-R_{fr}}{\sigma_{p}} \]
 
 Capital asset pricing model(CAPM){[}3{]}, \(\beta\), witch, measures the
 portfolio risk sensibility to a specified non-diversifiable risk asset ,
-here the IFIX was used as
-reference.\[\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}\]
+here the IFIX was used as reference.
+
+\[\beta=\frac{Cov(P;IFIX)}{\sigma_{IFIX}^2}\]
 
 \begin{center}
 \textbf{3. METODOLOGY}
@@ -286,7 +287,7 @@ from the website Clube do FII{[}1{]} to select all assets with the IPO
 than R\$ 2,000.00. The chosen asset price data was downloaded within the
 time window from 2017 to 2019 with the package quantmod{[}8{]}and Yahoo
 Finance{[}11{]} as a source. After the price data vesting, follow the
-monthly log returns calculation using dplyr{[}12{]} and xts{[}13{]} to
+daily log returns calculation using dplyr{[}12{]} and xts{[}13{]} to
 transform the daily returns into monthly returns. Moreover, discarding
 all funds with inconsistent data or participation in the market index
 (IFIX) resulted in 24 assets selected.
@@ -297,11 +298,67 @@ optimization took part by adapting a script from
 codingfinance.com{[}14{]} and calculating the portfolio returns using
 weights generated with the base function runif{[}15{]}, which uses
 uniform distribution. Finally, the market indicators were computed and
-filtered to show the tangent and minimum variance.
+filtered to show the tangent and minimum variance portfolios.
+
+\newpage
 
 \begin{center}
-\textbf{3. DISCUSSION AND CONCLUSION}
+\textbf{4. DISCUSSION}
 \end{center}
+
+We simulated two scenarios to comprehend the differences in portfolio
+allocation due to an increase in interest rates. The first one has 2\%
+per year fixed, and the second is 13\% per year fixed. For each, we
+compute the assets portfolio within the chosen assets. We expected
+changes in the portfolio due to interest rate changes. However, as we
+did not drop assets, the 24 selected still show some weight in portfolio
+selections. Weights in the portfolio investment would change, so we
+grouped the portfolio assets by category, accumulating the respective
+asset weights to understand the changes. As we did not drop assets, the
+24 selected still show some weight in portfolio selections (see table
+1). Moreover, after computations, we compared the minimum variance and
+tangent portfolios.
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\textwidth,height=\textheight]{images/categorias.png}
+
+}
+
+\caption{Table 1 -Portfolios category weights participation by interest
+rate}
+
+\end{figure}
+
+As shown in the table, most categories experimented with some changes.
+The most remarkable is the consistency of the class Fundos de Lajes
+Comerciais. These buildings offer infrastructure for installing large
+companies, explained as those with more financial power in rent payment
+liquidity. The same reason may explain the Shopping Varejo or malls,
+which have very comprehensive rent contracts and double the weight
+participations in the portfolios due to interest increases.
+
+Other classes show long rent contracts, like bank agencies and logistics
+operations, so they lose attractivity as interest rates increase. While
+the categories Recebiveis Imobiliarios and Incorporações Residenciais
+show stability Fundo de Fundos e Hibridos have lost participation
+probably because their portfolio bonds would not adjust at the same
+pace.
+
+\begin{center}
+\textbf{5. CONCLUSION}
+\end{center}
+
+When we analyzed the data for different interest rates, we expected
+changes in the portfolio composition. Inasmuch, variations were not
+precisely as expected like the Fundos de Fundos, as funds of bonds
+should increase participation due to expected returns.
+
+We will add some new features as studies continue. Drop some of the
+assets with lower participation to enhance the portfolio management, and
+set up new filters to apply to the assets selection.
+
+\newpage
 
 \hypertarget{references}{%
 \subsection*{References}\label{references}}

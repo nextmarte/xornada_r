@@ -17,6 +17,7 @@ library(plotly) # To create interactive charts
 library(timetk) # To manipulate the data series
 library(plotly)
 library(tidyverse)
+library(kableExtra)
 ```
 
 ```{r}
@@ -24,8 +25,13 @@ library(tidyverse)
 
 portfolio <- read_delim("dados/carteira_final.txt")
 (tick<-portfolio$Ticker)
+```
 
-Rfr<-0.02
+#primeiros portfolio
+
+```{r}
+
+
 
 price_data <- tq_get(tick,
                      from = '2017-01-02',
@@ -43,7 +49,7 @@ log_ret_tidy <- price_data %>%
                col_rename = 'ret',
                type = 'log')
 
-head(log_ret_tidy)
+
 ```
 
 ```{r}
@@ -60,7 +66,7 @@ head(log_ret_xts)
 ```
 
 
-```{r}
+```{r inicializacao_a}
 #Next lets calculate the mean daily returns for each asset.
 mean_ret <- colMeans(log_ret_xts)
 print(round(mean_ret, 5))
@@ -95,9 +101,11 @@ sharpe_ratio <- vector('numeric', length = num_port)
 
 ```
 
-```{r}
+```{r 2%_a}
 
 #Next lets run the for loop 5000 times.
+
+Rfr<-0.02
 
 for (i in seq_along(port_returns)) {
   
@@ -130,7 +138,7 @@ for (i in seq_along(port_returns)) {
 
 ```
 
-```{r}
+```{r 2%_b}
 
 # Storing the values in the table
 portfolio_values <- tibble(Return = port_returns,
@@ -152,42 +160,113 @@ portfolio_values <- tk_tbl(cbind(all_wts, portfolio_values))
 min_var <- portfolio_values[which.min(portfolio_values$Risk),]
 max_sr <- portfolio_values[which.max(portfolio_values$SharpeRatio),]
 
-
-
-#Lets plot the weights of each portfolio. First with the minimum variance portfolio.
-
-
-  
-  
-  #annotate('text', x = 0.20, y = 0.42, label = "Tangency Portfolio") +
- # annotate('text', x = 0.18, y = 0.01, label = "Minimum variance portfolio") +
- # annotate(geom = 'segment', x = 0.14, xend = 0.135,  y = 0.01, 
-        #   yend = 0.06, color = 'red', arrow = arrow(type = "open")) +
-  #annotate(geom = 'segment', x = 0.22, xend = 0.2275,  y = 0.405, 
-         #  yend = 0.365, color = 'red', arrow = arrow(type = "open"))
-
-
-#ggplotly(p)
-
-
-
-
-
-
-
+min_var_2p<-min_var
+max_sr_2p<-max_sr
 
 
 ```
 
 
 
+```{r inicializacao_b}
+#Next lets calculate the mean daily returns for each asset.
+mean_ret <- colMeans(log_ret_xts)
+print(round(mean_ret, 5))
+
+#Next we will calculate the covariance matrix for all these stocks.
+#We will annualize it by multiplying by 252.
+
+cov_mat <- cov(log_ret_xts) * 252
+round(cov_mat,4)
+
+num_port <- 5000
+
+# Creating a matrix to store the weights
+
+all_wts <- matrix(nrow = num_port,
+                  ncol = length(tick))
+
+# Creating an empty vector to store
+# Portfolio returns
+
+port_returns <- vector('numeric', length = num_port)
+
+# Creating an empty vector to store
+# Portfolio Standard deviation
+
+port_risk <- vector('numeric', length = num_port)
+
+# Creating an empty vector to store
+# Portfolio Sharpe Ratio
+
+sharpe_ratio <- vector('numeric', length = num_port)
+
+```
+
+
+```{r 13%_a}
+
+#Next lets run the for loop 5000 times.
+
+Rfr<-0.02
+
+for (i in seq_along(port_returns)) {
+  
+  wts <- runif(length(tick))
+  wts <- wts/sum(wts)
+  
+  # Storing weight in the matrix
+  all_wts[i,] <- wts
+  
+  # Portfolio returns
+  
+  port_ret <- sum(wts * mean_ret)
+  port_ret <- ((port_ret + 1)^252) - 1
+  
+  # Storing Portfolio Returns values
+  port_returns[i] <- port_ret
+  
+  
+  # Creating and storing portfolio risk
+  port_sd <- sqrt(t(wts) %*% (cov_mat  %*% wts))
+  port_risk[i] <- port_sd
+  
+  # Creating and storing Portfolio Sharpe Ratios
+  # Assuming 0% Risk free rate
+  
+  sr <- (port_ret-Rfr)/port_sd
+  sharpe_ratio[i] <- sr
+  
+}
+
+```
+
+```{r 13%_b}
+
+# Storing the values in the table
+portfolio_values <- tibble(Return = port_returns,
+                           Risk = port_risk,
+                           SharpeRatio = sharpe_ratio)
+
+
+# Converting matrix to a tibble and changing column names
+all_wts <- tk_tbl(all_wts)
+
+colnames(all_wts) <- colnames(log_ret_xts)
+
+# Combing all the values together
+portfolio_values <- tk_tbl(cbind(all_wts, portfolio_values))
+
+#The minimum variance portfolio
+#The tangency portfolio (the portfolio with highest sharpe ratio)
+
+min_var <- portfolio_values[which.min(portfolio_values$Risk),]
+max_sr <- portfolio_values[which.max(portfolio_values$SharpeRatio),]
+
+```
+
+
 ```{r}
-
-(min_var_2p)
-(max_sr_2p)
-
-(min_var)
-(max_sr)
 
 comparativo<-rbind(min_var_2p,min_var,max_sr_2p,max_sr) #variancia min (2%) etc...
 
@@ -222,39 +301,9 @@ table_comp_Sector2<-table_comp_Ticker %>%
 
   view(table_comp_Sector2)
   
-  #table_comp_Sector_complete<-inner_join(table_comp_Sector2,table_risk_return_sharpe_by_port,by="port_number")
-  
-  #table_comp_Sector_complete<-table_comp_Sector_complete %>% 
-    #arrange(port_number)
-  
-  
-  #view(table_comp_Sector_complete)
-    
-  
-  
-  
-  
-  
- 
-  
-
-  
-  
-  
-  #table_comp_Sector<-table_comp_Ticker %>% 
-  #select(port_number,Ticker,Categoria,weight,everything()) %>%#Soma dos pesos por categoria
-  #group_by(port_number) %>%
-  #group_by(Categoria) %>% 
-  #summarise(sum_weights=sum(weight),port_number=port_number,Return=Return,Risk=Risk,SharpeRatio=SharpeRatio)
-
-
-#view(table_comp_Sector)
-
 ```
 
 ```{r}
-
-library(kableExtra)
 
 table_comp_Sector2$Categoria <- str_wrap(table_comp_Sector2$Categoria, width = 10)
 
@@ -266,22 +315,22 @@ table_comp_Sector2$port_number[which(table_comp_Sector2$port_number=="3")]<-"tan
 table_comp_Sector2$port_number[which(table_comp_Sector2$port_number=="4")]<-"tangent_13%"
 
 #plota a distribuicao de peso por categoria para os portifolios de minima variancia
-ggplot(tbl_1_2) +
-  aes(x = fct_reorder(Categoria,sum_weights), y = sum_weights, fill = Categoria) +
-  geom_col(position="dodge2") +
-  facet_wrap(~port_number,nrow=2)+
-  labs(x = 'Category', y = 'Weight', title = "Portfolio weight distribution by Category - Min Variance portfolio")+
-  theme_minimal()
+#ggplot(tbl_1_2) +
+  #aes(x = fct_reorder(Categoria,sum_weights), y = sum_weights, fill = Categoria) +
+  #geom_col(position="dodge2") +
+  #facet_wrap(~port_number,nrow=2)+
+  #labs(x = 'Category', y = 'Weight', title = "Portfolio weight distribution by Category - Min Variance portfolio")+
+  #theme_minimal()
 
 tbl_3_4<-filter(table_comp_Sector2,port_number=="tangent_2%"|port_number=="tangent_13%")#filtra os portifolios tangentes
 
 #plota a distribuicao de peso por categoria para os portifolios tangentes
-ggplot(tbl_3_4) +
-  aes(x = fct_reorder(Categoria,sum_weights), y = sum_weights, fill = Categoria) +
-  geom_col(position="dodge2") +
-  facet_wrap(~port_number,nrow=2)+
-  labs(x = 'Category', y = 'Weight', title = "Portfolio weight distribution by Category - Tangent portfolio")+
-  theme_minimal()
+#ggplot(tbl_3_4) +
+  #aes(x = fct_reorder(Categoria,sum_weights), y = sum_weights, fill = Categoria) +
+  #geom_col(position="dodge2") +
+  #facet_wrap(~port_number,nrow=2)+
+  #labs(x = 'Category', y = 'Weight', title = "Portfolio weight distribution by Category - Tangent portfolio")+
+  #theme_minimal()
 
 
 names_port<-c("min_var_2%","min_var_13%","tangent_2%","tangent_13%")
@@ -290,14 +339,49 @@ table_risk_return_sharpe_by_port$port_number<-names_port
 table_risk_return_sharpe_by_port<-rename(table_risk_return_sharpe_by_port,portfolio=port_number)
 table_comp_Sector2<-rename(table_comp_Sector2,portfolio=port_number)
 
-table_1<-kable((table_risk_return_sharpe_by_port[1:3]), align=rep('c', 3)) %>% 
+kable((table_risk_return_sharpe_by_port[1:3]), align=rep('c', 3)) %>% 
   kable_styling(full_width = F, position = "left")
 
 kable((table_comp_Sector2[1:4]), align=rep('c', 4)) %>% 
   kable_styling(full_width = F, position = "left")
 
-
+tbl_weightsb<-rio::import("tbl_weightsb.xlsx")
 #rio::export(table_comp_Sector2,"tbl_weights.xlsx")
 
+kable((tbl_weightsb[1:6]), align=rep('c', 6)) %>% 
+  kable_styling(full_width = F, position = "left")
+
+```
+```{r ifix}
+
+price_data_ifix <- tq_get("FIGS11.SA",
+                     from = '2017-01-02',
+                     to = '2019-12-31',
+                     get = 'stock.prices')
+
+#Next we will calculate the daily returns for 
+#these stocks. We will use the logarithmic returns.
+
+log_ret_tidy_ifix <- price_data_ifix %>%
+  group_by(symbol) %>%
+  tq_transmute(select = adjusted,
+               mutate_fun = periodReturn,
+               period = 'daily',
+               col_rename = 'ret',
+               type = 'log')
+
+
+```
+
+```{r}
+
+# As you can see that this data is in tidy format. 
+#We will use the spread() function to convert it to a wide format. 
+#And we will also convert it into a time series object using xts() function.
+log_ret_xts_ifix <- log_ret_tidy_ifix %>%
+  spread(symbol, value = ret) %>%
+  tk_xts()
+
+head(log_ret_xts_ifix)
 ```
 
