@@ -301,3 +301,71 @@ kable((table_comp_Sector2[1:4]), align=rep('c', 4)) %>%
 
 ```
 
+
+```{r}
+#selic_hist<-rio::import("SELIC_HIST.xlsx")
+
+selic_hist <- read_excel("SELIC_HIST.xlsx", 
+    col_types = c("date", "numeric"))
+
+IFIX_Mensal_2012_2022 <- read_excel("IFIX_Mensal_2012_2022.xlsx", 
+    col_types = c("date", "numeric"))
+
+IFIX_Mensal_2012_2022_ts<-tk_xts(IFIX_Mensal_2012_2022)
+
+IFIX_Mensal_2012_2022_ts <-
+  IFIX_Mensal_2012_2022_ts %>% 
+  to.monthly(indexAt = "lastof",
+             OHLC = FALSE) %>% 
+  window(start="2013-01-31")
+  
+
+selic_hist_ts<-tk_xts(selic_hist)
+
+selic_hist_ts <- selic_hist_ts %>% 
+    to.monthly(indexAt = "lastof",
+               OHLC = FALSE) %>% 
+  window(start="2013-02-28")
+
+
+log_ret_IFIX <-Return.calculate(IFIX_Mensal_2012_2022_ts, 
+                   method = "log") %>% 
+                   na.omit()
+
+
+
+comp_ifix_selic<-cbind(selic_hist_ts,
+                       log_ret_IFIX)
+
+comp_ifix_selic<-tk_tbl(comp_ifix_selic)
+
+comp_ifix_selic<-comp_ifix_selic %>% 
+  rename(date=index) %>% 
+  remove_rownames() %>% 
+  pivot_longer(names_to = "asset",values_to = "returns",-date) %>% 
+  
+
+
+# rio::export(comp_ifix_selic,"comp_ifix_selic.xlsx")
+
+
+# comp_ifix_selic <- readxl::read_excel("comp_ifix_selic.xlsx", 
+#     col_types = c("date", "numeric", "text"))
+
+
+ggplot(comp_ifix_selic) +
+  aes(x = date, y = returns, colour = asset) +
+  geom_line(size = 0.5) +
+  scale_color_hue(direction = 1) +
+  theme_minimal()+
+  labs(title = "Comparative returns IFIX vs SELIC - 2013-2022")
+
+
+
+
+
+summary(selic_hist)
+
+
+```
+
