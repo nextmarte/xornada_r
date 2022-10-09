@@ -342,7 +342,9 @@ comp_ifix_selic<-tk_tbl(comp_ifix_selic)
 comp_ifix_selic<-comp_ifix_selic %>% 
   rename(date=index) %>% 
   remove_rownames() %>% 
-  pivot_longer(names_to = "asset",values_to = "returns",-date) %>% 
+  pivot_longer(names_to = "asset",values_to = "returns",-date) %>%
+
+ 
   
 
 
