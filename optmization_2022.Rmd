@@ -366,7 +366,7 @@ ggplot(comp_ifix_selic) +
 
 
 
-summary(selic_hist)
+
 
 
 ```
