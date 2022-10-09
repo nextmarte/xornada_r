@@ -351,8 +351,8 @@ comp_ifix_selic<-comp_ifix_selic %>%
 # rio::export(comp_ifix_selic,"comp_ifix_selic.xlsx")
 
 
-# comp_ifix_selic <- readxl::read_excel("comp_ifix_selic.xlsx", 
-#     col_types = c("date", "numeric", "text"))
+comp_ifix_selic <- readxl::read_excel("dados/comp_ifix_selic.xlsx",
+    col_types = c("date", "numeric", "text"))
 
 
 ggplot(comp_ifix_selic) +
