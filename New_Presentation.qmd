@@ -19,6 +19,7 @@ format:
 date: '`r Sys.Date()`'
 ---
 
+
 ## Introduction {.smaller}
 
 ::: {#tabset1 .panel-tabset}
@@ -34,25 +35,7 @@ FII - is kind of real estate investment in Brazil
 
 ## Popularity
 
-::: r-stack
-![](images/Investidores.png){.fragment width="450" height="450"}
 
-![](images/fundos.png){.fragment top="50" width="450" height="450"}
-:::
-
-## The problem
-
--   Maximize portfolio returns
-
--   Verify interest rate impact
-
-## Choices
-
--   liquidity
-
--   categories we left out
-
-## 
 
 ```{r}
 #| echo: false
@@ -69,6 +52,82 @@ library(timetk)
 library(readxl)
 library(here)
 ```
+
+::: {#fig-elephants layout-ncol="2"}
+
+```{r}
+data_inv <-seq(as.Date("2009-12-31"), as.Date("2023-08-31"), by="years")#cria o vetor de datas
+
+investors <-as.numeric(c("12000","21000",
+                         "36000","102000",
+                         "101000","93000",
+                         "89000","89000",
+                         "121000","208000",
+                         "645000","1172000",
+                         "1546000","1837000"))
+
+n_investors<-data.frame(data_inv, investors) %>% 
+  mutate(t_investors=investors/1000)
+ggplot(n_investors) +
+  aes(x = data_inv, y = t_investors) +
+  geom_col(fill = "deepskyblue",position = ) +
+  geom_text(aes(label=t_investors),vjust=-0.2)+
+  labs(title = "Number of investors",
+       subtitle = "Evolution of the number of investors - custody position (Thousands)" ,
+       x="Year", y="Number of investor")+
+       ggthemes::theme_few()
+```
+
+
+```{r}
+#dataframe evolução anual dos FIIs
+
+date_fiis <-seq(as.Date("2017-12-31"), as.Date("2023-07-31"), by="years")
+
+Listed<-as.numeric(c("156","190",
+                     "250","311",
+                     "402","431"))
+
+Total<-as.numeric(c("333","381",
+                    "464","555",
+                    "697","756"))
+
+anual_fiis_ev<-data.frame(date_fiis,Listed,Total)#constroi o dataframe
+
+#deixa o dataframe na forma longa para apresentar os graficos de barra na forma empilhada
+an_fii_ev_plot<-pivot_longer(anual_fiis_ev,-date_fiis) 
+
+#Number of funds and primary market
+ g2<- ggplot(an_fii_ev_plot) +
+  aes(x = date_fiis, fill = name, y = value) +
+  geom_col(position = "dodge",stat='identity') +
+  ggfittext::geom_bar_text(position="dodge")+
+  scale_fill_manual(values = c(Listed= "lightblue",
+    Total = "deepskyblue")) +
+    labs(title = "Number of funds and primary market",
+    subtitle = "Yearly evolution of the number of FIIs" ,
+    x="Year", y="Total de fundos CVM / Total Funds CVM",fill="")+
+  ggthemes::theme_few()
+  
+ g2
+```
+:::
+
+## The problem
+
+-   Maximize portfolio returns
+
+-   Verify interest rate impact
+
+## Choices
+
+-   liquidity
+
+-   categories we left out
+
+## 
+
+
 
 ```{r}
 
@@ -91,9 +150,9 @@ ggplot(comp_ifix_selic) +
 ## Data
 
 ::: {#fig-elephants layout-ncol="2"}
-![investors](images/Investidores.png){#fig-investhors width="350"}
 
-![Funds](images/fundos.png){#fig-Listed width="350" height="250"}
+
+
 
 Famous Elephants
 :::

@@ -17,6 +17,9 @@ library(plotly) # To create interactive charts
 library(timetk) # To manipulate the data series
 library(plotly)
 library(tidyverse)
+library(fPortfolio)
+library(PerformanceAnalytics)
+library(wesanderson)
 ```
 
 ```{r}
@@ -57,6 +60,15 @@ log_ret_xts <- log_ret_tidy %>%
 
 head(log_ret_xts)
 
+
+tp <- tangencyPortfolio(as.timeSeries(log_ret_xts))
+
+frontier <- portfolioFrontier(as.timeSeries(log_ret_xts), `setRiskFreeRate<-`(portfolioSpec(),0.0001),constraints = "LongOnly")
+plot(frontier, c(1,2,3,4,5))
+
+frontierPlot(frontier, frontier = "both",labels = TRUE,auto = TRUE,title = TRUE)
+
+frontierPlot()
 ```
 
 
@@ -367,6 +379,90 @@ ggplot(comp_ifix_selic) +
 
 
 
+
+
+```
+
+
+Graficos B3
+
+```{r}
+
+data_inv <-seq(as.Date("2009-12-31"), as.Date("2023-08-31"), by="years")#cria o vetor de datas
+
+investors <-as.numeric(c("12000","21000",
+                         "36000","102000",
+                         "101000","93000",
+                         "89000","89000",
+                         "121000","208000",
+                         "645000","1172000",
+                         "1546000","1837000"))
+
+print(investors)
+
+n_investors<-data.frame(data_inv, investors) %>% 
+  mutate(t_investors=investors/1000)
+
+#grafico de investidores
+g1<-ggplot(n_investors) +
+  aes(x = data_inv, y = t_investors) +
+  geom_col(fill = "deepskyblue",position = ) +
+  geom_text(aes(label=t_investors),vjust=-0.2)+
+  labs(title = "Number of investors",
+       subtitle = "Evolution of the number of investors - custody position (Thousands)" ,
+       x="Year", y="Number of investor")+
+       ggthemes::theme_few()
+
+#dataframe evolução anual dos FIIs
+
+date_fiis <-seq(as.Date("2017-12-31"), as.Date("2023-07-31"), by="years")
+
+Listed<-as.numeric(c("156","190",
+                     "250","311",
+                     "402","431"))
+
+Total<-as.numeric(c("333","381",
+                    "464","555",
+                    "697","756"))
+
+anual_fiis_ev<-data.frame(date_fiis,Listed,Total)#constroi o dataframe
+
+#deixa o dataframe na forma longa para apresentar os graficos de barra na forma empilhada
+an_fii_ev_plot<-pivot_longer(anual_fiis_ev,-date_fiis) 
+
+#Number of funds and primary market
+ g2<- ggplot(an_fii_ev_plot) +
+  aes(x = date_fiis, fill = name, y = value) +
+  geom_col(position = "dodge",stat='identity') +
+  ggfittext::geom_bar_text(aes(label=value),position="dodge")+
+  scale_fill_manual(values = c(Listed= "lightblue",
+    Total = "deepskyblue")) +
+    labs(title = "Number of funds and primary market",
+    subtitle = "Yearly evolution of the number of FIIs" ,
+    x="Year", y="Total de fundos CVM / Total Funds CVM",fill="")+
+  ggthemes::theme_few()
+  
+ g1
+ g2
+
+  # ggplot(an_fii_ev_plot)+
+  # aes(date_fiis,value)+
+  # geom_col()+
+  # geom_text(aes(label=value),vjust=-0.2)+
+  # scale_fill_manual(
+  #     values = c(listed_fiis = "Lightblue",
+  #     total_fiis_cvm = "DarkBlue"))+
+  # labs(title = "Number of funds and primary market",
+  #      subtitle = "Yearly evolution of the number of FIIs" ,
+  #      x="Year", y="Total de fundos CVM / Total Funds CVM")+
+  #      ggthemes::theme_few()
+  
+  # ggplot(anual_fiis_ev)+
+#   geom_col(aes(x=date_fiis,y=total_fiis_cvm),fill="darkblue")+
+#   geom_bar(aes(x=date_fiis,weight=listed_fiis),fill="lightblue",position = "dodge")
+  # geom_text(aes(label=paste("(",total_fiis_cvm,",",listed_fiis,")"),hjust=-1,vjust=-1))
+
+  
 
 
 ```
