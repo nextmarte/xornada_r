@@ -66,6 +66,7 @@ head(log_ret_xts)
 ```
 
 
+
 ```{r inicializacao_a}
 #Next lets calculate the mean daily returns for each asset.
 mean_ret <- colMeans(log_ret_xts)
